@@ -1,0 +1,7 @@
+-Image Uploading/changing
+-check in/checkout
+-file uploads
+-asset maintenance
+-reports
+-user rights
+-admin settings

@@ -1,0 +1,105 @@
+/*
+ * Skin: Brand
+ * -----------
+ */
+
+@import "../../bootstrap-less/mixins.less";
+@import "../../bootstrap-less/variables.less";
+@import "../variables.less";
+/*jp*/
+
+@brand-color: #DD4B39;
+
+
+
+//Link colors (Aka: <a> tags)
+@link-color:       @brand-color;
+@link-hover-color: lighten(@link-color, 15%);
+
+
+
+//Light sidebar
+@sidebar-light-bg:                  #f9fafc;
+@sidebar-light-hover-bg:            lighten(#f0f0f1, 1.5%);
+@sidebar-light-color:               #aaaaaa;
+@sidebar-light-hover-color:         #000;
+@sidebar-light-submenu-bg:          @sidebar-light-hover-bg;
+@sidebar-light-submenu-color:       #777;
+@sidebar-light-submenu-hover-color: #000;
+@sidebar-light-header-bg: #eeeeee;
+
+@import "../mixins.less";
+
+.text-brand{
+  color:@brand-color;
+}
+.bg-brand{
+  background-color:@brand-color !important;
+}
+
+/* General Links */
+a {
+  color: @link-color;
+}
+a:hover,
+a:active,
+a:focus {
+  outline: none;
+  text-decoration: none;
+  color: @link-hover-color;
+}
+
+
+.skin-brand-light {
+  //Navbar
+  .main-header {
+    .navbar {
+      .navbar-variant(@brand-color; #fff);
+      .sidebar-toggle {
+        color: #fff;
+        &:hover {
+          background-color: darken(@brand-color, 5%);
+        }
+      }
+      @media(max-width: @screen-header-collapse) {
+        .dropdown-menu {
+          li {
+            &.divider {
+              background-color: rgba(255,255,255,0.1);
+            }
+            a {
+              color: #fff;
+              &:hover {
+                background: darken(@brand-color, 5%);
+              }
+            }
+          }
+        }
+      }
+    }
+    //Logo
+    .logo {
+      .logo-variant(@brand-color);
+    }
+
+    li.user-header {
+      background-color: @brand-color;
+    }
+  }
+
+  //Content Header
+  .content-header {
+    background: transparent;
+  }
+  .btn-brand{
+    .button-variant(@brand-color,darken(@brand-color,5%),darken(@brand-color,5%));
+    color:#fff;
+    &:hover{
+    color:#fff;
+    }
+  }
+
+  //Create the sidebar skin
+  .skin-light-sidebar(@brand-color);
+
+}
