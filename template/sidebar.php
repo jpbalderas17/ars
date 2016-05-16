@@ -15,7 +15,31 @@
             </li>
              <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
             "report_asset.php",
-            "report_asset_activity.php",
+            "reimbursements_audit.php",
+            "report_asset_maintenance.php",
+            "consumables_report.php",
+            "consumable_activity_report.php"
+            )))?"active":"";?>'>
+              <a href="#">
+                <i class="fa fa-file-text"></i>
+                <span>My Reimbursement</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class='treeview-menu'>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset.php"?"active":"";?>">
+                    <a href="report_asset.php"><i class="fa fa-circle-o"></i><span>Reimbursements</span></a>
+                </li>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
+                    <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Returned Reimbursements</span></a>
+                </li>
+              </ul>
+            </li>
+            <?php
+              if(AllowUser(array(1,2))):
+            ?>
+             <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
+            "report_asset.php",
+            "reimbursements_audit.php",
             "report_asset_maintenance.php",
             "consumables_report.php",
             "consumable_activity_report.php"
@@ -26,17 +50,24 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class='treeview-menu'>
+                <?php
+                  if(AllowUser(array(1))):
+                ?>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset.php"?"active":"";?>">
                     <a href="report_asset.php"><i class="fa fa-circle-o"></i><span>Approval</span></a>
                 </li>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset_activity.php"?"active":"";?>">
-                    <a href="report_asset_activity.php"><i class="fa fa-circle-o"></i><span>Audit</span></a>
+                <?php
+                  endif;
+                ?>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
+                    <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Audit</span></a>
                 </li>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset_maintenance.php"?"active":"";?>">
                     <a href="report_asset_maintenance.php"><i class="fa fa-circle-o"></i><span>History</span></a>
                 </li>
               </ul>
             </li>
+
             <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
             "report_asset.php",
             "report_asset_activity.php",
@@ -58,6 +89,9 @@
                 </li>
               </ul>
             </li>
+            <?php
+              endif;
+            ?>
             <?php
               if(AllowUser(array(1))):
             ?>
