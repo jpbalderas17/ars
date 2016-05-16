@@ -23,7 +23,7 @@
     <section class='content'>
         <div class="row">
             <div class="col-lg-12">
-                    <h3 class="page-header text-center text-green">Settings</h3>
+                    <h3 class="page-header text-center text-brand">Settings</h3>
                 </div>
                 <div class='col-lg-12'>
                     <?php
@@ -41,7 +41,7 @@
 
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
-                                        <button type='submit' class='btn btn-flat btn-success'> <span class='fa fa-check'></span> Save</button>
+                                        <button type='submit' class='btn btn-flat btn-brand'> <span class='fa fa-check'></span> Save</button>
                                     </div>
                                     
                                 </div>

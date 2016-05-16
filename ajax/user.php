@@ -55,11 +55,11 @@ $columns = array(
             $action_buttons="";
             if($row['is_active']==1):
 
-            $action_buttons.="<a class='btn btn-flat btn-sm btn-success' href='activate.php?id={$d}' onclick='return confirm(\"Are you sure you want to deactivate this user?\")'><span class='fa fa-lock' ></span> Deactivate</a>";
+            $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' href='activate.php?id={$d}' onclick='return confirm(\"Are you sure you want to deactivate this user?\")'><span class='fa fa-lock' ></span> Deactivate</a>";
             else:
-            $action_buttons.="<a class='btn btn-flat btn-sm btn-success' href='activate.php?id={$d}' onclick='return confirm(\"Are you sure you want to activate this user?\")'><span class='fa fa-unlock' ></span> Activate</a>";
+            $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' href='activate.php?id={$d}' onclick='return confirm(\"Are you sure you want to activate this user?\")'><span class='fa fa-unlock' ></span> Activate</a>";
             endif;
-            $action_buttons.=" <a class='btn btn-flat btn-sm btn-success' href='frm_users.php?id={$d}'><span class='fa fa-pencil'></span></a> <a class='btn btn-flat btn-sm btn-danger' href='delete.php?id={$d}&t=u' onclick='return confirm(\"Are you sure you want to delete this user?\")'><span class='fa fa-trash'></span></a>";
+            $action_buttons.=" <a class='btn btn-flat btn-sm btn-brand' href='frm_users.php?id={$d}'><span class='fa fa-pencil'></span></a> <a class='btn btn-flat btn-sm btn-danger' href='delete.php?id={$d}&t=u' onclick='return confirm(\"Are you sure you want to delete this user?\")'><span class='fa fa-trash'></span></a>";
             return $action_buttons;
         }
     )

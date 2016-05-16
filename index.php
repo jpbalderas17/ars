@@ -15,7 +15,7 @@
  	<div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1 class='page-header text-center text-green'>
+          <h1 class='page-header text-center text-brand'>
             Dashboard
           </h1>
         </section>

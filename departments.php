@@ -31,7 +31,7 @@
 ?>
 <div class='content-wrapper'>
     <div class='content-header'>
-        <h1 class='page-header text-center text-green'>Departments</h1>
+        <h1 class='page-header text-center text-brand'>Departments</h1>
     </div>
     <section class='content'>
         <div class="row">
@@ -58,7 +58,7 @@
                                         </div>
                                         <div class='col-md-2'>
                                             <a href='departments.php' class='btn btn-flat btn-default' onclick="return confirm('<?php echo !empty($department['id'])?'Are you sure you want to cancel the modification of the department?':'Are you sure you want to cancel the creation of the new department?';?>')">Cancel</a>
-                                            <button type='submit' class='btn btn-flat btn-success'> <span class='fa fa-check'></span> Save</button>
+                                            <button type='submit' class='btn btn-flat btn-brand'> <span class='fa fa-check'></span> Save</button>
                                         </div>
                                 </div>
 
@@ -89,7 +89,7 @@
                                                 <td><?php echo htmlspecialchars($category['code'])?></td>
                                                 <td><?php echo htmlspecialchars($category['name'])?></td>
                                                 <td>
-                                                    <a class='btn btn-flat btn-sm btn-success' href='departments.php?id=<?php echo $category['id'];?>'><span class='fa fa-pencil'></span></a>
+                                                    <a class='btn btn-flat btn-sm btn-brand' href='departments.php?id=<?php echo $category['id'];?>'><span class='fa fa-pencil'></span></a>
                                                     <a class='btn btn-flat btn-sm btn-danger' href='delete.php?id=<?php echo $category['id']?>&t=dep' onclick='return confirm("This department will be deleted.")'><span class='fa fa-trash'></span></a>
                                                 </td>
                                             </tr>

@@ -16,7 +16,7 @@
 ?>
 <div class='content-wrapper'>
     <div class='content-header'>
-        <h1 class='page-header text-center text-green'>
+        <h1 class='page-header text-center text-brand'>
             Current Users
         </h1>
     </div>
@@ -28,7 +28,7 @@
                     ?>
                     <div class='row'>
                         <div class='col-sm-12'>
-                                <a href='frm_users.php' class='btn btn-success btn-flat pull-right'> <span class='fa fa-plus'></span> Create New</a>
+                                <a href='frm_users.php' class='btn btn-brand btn-flat pull-right'> <span class='fa fa-plus'></span> Create New</a>
                         </div>
                     </div>
                     <br/>    
@@ -51,45 +51,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                            $users=$con->myQuery("SELECT CONCAT(first_name,' ',middle_name,' ',last_name) as name,username,email,contact_no,employee_no,title,department,id,is_active FROM qry_users")->fetchAll(PDO::FETCH_ASSOC);
-
-                                            foreach (array() as $user):
-                                        ?>
-                                            <tr>
-                                                <?php
-                                                    foreach ($user as $key => $value):
-                                                    if($key=='name'):
-                                                ?>
-                                                    <td>
-                                                        <a href='view_user.php?id=<?= $user['id']?>'><?php echo htmlspecialchars($value)?></a>
-                                                    </td>
-                                                <?php
-                                                    elseif($key=='is_active'):
-                                                ?>
-                                                <?php
-                                                    elseif($key=='id'):
-                                                ?>
-                                                    <td>
-                                                        <a class='btn btn-flat btn-sm btn-success' href='frm_users.php?id=<?php echo $value;?>'><span class='fa fa-pencil'></span></a>
-                                                        <a class='btn btn-flat btn-sm btn-danger' href='delete.php?id=<?php echo $value?>&t=u' onclick='return confirm("This user will be deleted.")'><span class='fa fa-trash'></span></a>
-                                                    </td>
-                                                <?php
-                                                    else:
-                                                ?>
-                                                    <td>
-                                                        <?php
-                                                            echo htmlspecialchars($value);
-                                                        ?>
-                                                    </td>
-                                                <?php
-                                                    endif;
-                                                    endforeach;
-                                                ?>
-                                            </tr>
-                                        <?php
-                                            endforeach;
-                                        ?>
+                                      
                                     </tbody>
                                 </table>
                             </div>

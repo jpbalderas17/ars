@@ -27,7 +27,7 @@
         <section class="content">
 
         <div class="content-header ">
-          <h1 class="page-header text-green text-center">
+          <h1 class="page-header text-brand text-center">
             Change Password
           </h1>
         </div>
@@ -63,8 +63,8 @@
 
                         <div class="form-group">
                           <div class="col-sm-9 col-md-offset-2 ">
+                            <button type='submit' class='btn btn-brand btn-flat'>Save </button>
                             <a href='index.php' class='btn btn-default btn-flat'>Cancel</a>
-                            <button type='submit' class='btn btn-success btn-flat'>Save </button>
                           </div>
                         </div>
                     </form> 

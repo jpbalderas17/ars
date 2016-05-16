@@ -50,8 +50,8 @@ if(!empty($_GET['id'])){
 ?>
  	<div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
+        <section class="content-header ">
+          <h1 class="page-header text-center text-brand">
             Reimbursement Creation
           </h1>
         </section>
@@ -66,10 +66,8 @@ if(!empty($_GET['id'])){
 				<?php
 					Alert();
 				?>
-              <div class="box box-primary">
-                <div class="box-body">
-                  <div class="row">
-                	<div class='col-sm-12 col-md-8 col-md-offset-2'>
+
+              <div class='col-sm-12 col-md-8 col-md-offset-2'>
                         <form class='form-horizontal' method='POST' action='create_users.php'>
                                 <input type='hidden' name='id' value='<?php echo !empty($organization)?$organization['id']:""?>'>
                                 
@@ -138,7 +136,7 @@ if(!empty($_GET['id'])){
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Attachment*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                         <input type='file' multiple="" name='file' class="filestyle" data-classButton="" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files">
+                                         <input type='file' multiple="" name='file' class="filestyle" data-classButton="" data-buttonName="btn btn-flat btn-default" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files">
                                     </div>
                                 </div>
 
@@ -154,17 +152,14 @@ if(!empty($_GET['id'])){
 
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
-                                        <button type='submit' class='btn btn-brand'> <span class='fa fa-check'></span> Save</button>
-                                        <a href='users.php' class='btn btn-default'>Cancel</a>
+                                        <button type='submit' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Save</button>
+                                        <a href='users.php' class='btn btn-flat btn-default'>Cancel</a>
                                     </div>
                                     
                                 </div>                        
                         </form>
                       </div>
                   </div><!-- /.row -->
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div>
           </div><!-- /.row -->
         </section><!-- /.content -->
   </div>

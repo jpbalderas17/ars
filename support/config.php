@@ -179,13 +179,15 @@
 
 /* SPECIFIC TO WEBAPP */
 
-function upload_files()
-{
-	# code...
-}
+
 function record_movement($reimbursement_id,$action,$notes=""){
 	global $con;
-
+	try {
+		$con->myQuery("INSERT reimbursement_movement(reimbursement_id,action_time,action,notes) VALUES(:reimbursement_id,NOW(),:action,:notes)",array("reimbursement_id"=>$reimbursement_id,"action"=>$action,"notes"=>$notes));
+		return true;
+	} catch (Exception $e) {
+		return false;
+	}
 	
 }
 /* END SPECIFIC TO WEBAPP */

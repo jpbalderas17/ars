@@ -41,7 +41,7 @@ if(!AllowUser(array(1))){
 ?>
 <div class='content-wrapper'>
     <div class='content-header'>
-        <h1 class='page-header text-center text-green'>Users Form</h1>
+        <h1 class='page-header text-center text-brand'>Users Form</h1>
     </div>
     <section class='content'>
         <div class="row">
@@ -129,7 +129,7 @@ if(!AllowUser(array(1))){
                                                 </select>
                                             </div>
                                             <div class='col-ms-1'>
-                                                <a href='departments.php' class='btn btn-flat btn-sm btn-success'><span class='fa fa-plus'></span></a>
+                                                <a href='departments.php' class='btn btn-flat btn-sm btn-brand'><span class='fa fa-plus'></span></a>
                                             </div>
                                         </div>
                                         
@@ -144,7 +144,7 @@ if(!AllowUser(array(1))){
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
                                         <a href='user.php' class='btn btn-flat btn-default' onclick="return confirm('<?php echo !empty($asset['id'])?'Are you sure you want to cancel the modification of this user?':'Are you sure you want to cancel the creation of the new user?';?>')">Cancel</a>
-                                        <button type='submit' class='btn btn-flat btn-success'> <span class='fa fa-check'></span> Save</button>
+                                        <button type='submit' class='btn btn-flat btn-brand'> <span class='fa fa-check'></span> Save</button>
                                     </div>
                                     
                                 </div>
