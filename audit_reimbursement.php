@@ -187,8 +187,8 @@ if(!empty($_GET['id'])){
 
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
-                                        <a href='users.php' class='btn btn-default'>Cancel</a>
-                                        <button type='submit' class='btn btn-brand'> <span class='fa fa-check'></span> Save</button>
+                                        <button type='submit' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Save</button>
+                                        <a href='users.php' class='btn btn-default btn-flat'>Cancel</a>
                                     </div>
                                     
                                 </div>                        

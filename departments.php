@@ -57,8 +57,8 @@
                                             <input type='text' class='form-control' name='name' placeholder='Enter Department Name' value='<?php echo !empty($department)?$department['name']:"" ?>' required>
                                         </div>
                                         <div class='col-md-2'>
-                                            <a href='departments.php' class='btn btn-flat btn-default' onclick="return confirm('<?php echo !empty($department['id'])?'Are you sure you want to cancel the modification of the department?':'Are you sure you want to cancel the creation of the new department?';?>')">Cancel</a>
                                             <button type='submit' class='btn btn-flat btn-brand'> <span class='fa fa-check'></span> Save</button>
+                                            <a href='departments.php' class='btn btn-flat btn-default' onclick="return confirm('<?php echo !empty($department['id'])?'Are you sure you want to cancel the modification of the department?':'Are you sure you want to cancel the creation of the new department?';?>')">Cancel</a>
                                         </div>
                                 </div>
 
