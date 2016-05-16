@@ -86,7 +86,7 @@ if(!empty($_GET['id'])){
                                             echo makeOptions($user_type);
                                             ?>
                                         </select>-->
-                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> required>
+                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
                                                 <option value="1">Services</option>
                                                 <option value="2">Goods</option>
                                                 <option value="3">Goods/Services</option>

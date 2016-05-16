@@ -63,7 +63,7 @@ if(!empty($_GET['id'])){
  	<div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
+          <h1 class='page-header text-center text-brand'>
             Audit Reimbursement
           </h1>
         </section>
@@ -153,7 +153,7 @@ if(!empty($_GET['id'])){
                                             echo makeOptions($user_type);
                                             ?>
                                         </select>-->
-                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> required>
+                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
                                                 <!--<option value="Services">Services</option>
                                                 <option value="Goods">Goods</option>
                                                 <option value="Goods/Services">Goods/Services</option>-->
@@ -169,7 +169,7 @@ if(!empty($_GET['id'])){
                                             echo makeOptions($user_type);
                                             ?>
                                         </select>-->
-                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select Tax Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> required>
+                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select Tax Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
                                                 <!--<option value="Services">Services</option>
                                                 <option value="Goods">Goods</option>
                                                 <option value="Goods/Services">Goods/Services</option>-->
