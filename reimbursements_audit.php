@@ -52,7 +52,7 @@
                               
                           <label class='col-md-3 text-right' >Department</label>
                           <div class='col-md-3'>
-                            <select class='form-control' name='department_id' data-placeholder='Select Department' onchange='getUsers()'>
+                            <select class='form-control' name='department_id' data-placeholder='Select Department' onchange='getUsers()' style='width:100%'>
                             <?php
                                 echo makeOptions($departments);
                             ?>
@@ -60,7 +60,7 @@
                           </div>
                           <label class='col-md-3 text-right' >Employee</label>
                           <div class='col-md-3'>
-                            <select class='form-control' name='user_id' data-placeholder='Select User'>
+                            <select class='form-control' name='user_id' data-placeholder='Select User' style='width:100%'>
                             <?php
                                 echo makeOptions($users);
                             ?>
@@ -97,7 +97,7 @@
                         Alert();
                     ?>
 
-                    <div class='dataTable_wrapper table-responsive'>
+                    <div class='dataTable_wrapper '>
                         <table class='table table-bordered table-condensed table-hover ' id='dataTables'>
                             <thead>
                                 <tr>
