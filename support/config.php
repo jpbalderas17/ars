@@ -31,6 +31,22 @@
 		$date=new DateTime($date_string);
 		return $date->format("m/d/Y");	
 	}
+
+	function reArrayFiles(&$file_post) {
+
+    $file_ary = array();
+    $file_count = count($file_post['name']);
+    $file_keys = array_keys($file_post);
+
+	    for ($i=0; $i<$file_count; $i++) {
+	        foreach ($file_keys as $key) {
+	            $file_ary[$i][$key] = $file_post[$key][$i];
+	        }
+	    }
+
+	    return $file_ary;
+	}
+
 // ENCRYPTOR
 	function encryptIt( $q ) {
 	    $cryptKey  = 'JPB0rGtIn5UB1xG03efyCp';

@@ -68,7 +68,7 @@ if(!empty($_GET['id'])){
 				?>
 
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
-                        <form class='form-horizontal' method='POST' action='create_users.php'>
+                        <form class='form-horizontal' method='POST' action='test.php' enctype="multipart/form-data">
                                 <input type='hidden' name='id' value='<?php echo !empty($organization)?$organization['id']:""?>'>
                                 
                                 <div class='form-group'>
@@ -122,7 +122,7 @@ if(!empty($_GET['id'])){
                                 <div class='form-group' id='invoicediv' style="display: none;">
                                     <label class='col-sm-12 col-md-3 control-label'> Invoice Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Password' value='<?php echo !empty($organization)?htmlspecialchars(decryptIt($organization['password'])):''; ?>' required>
+                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Password' value='<?php echo !empty($organization)?htmlspecialchars(decryptIt($organization['password'])):''; ?>' >
                                     </div>
                                 </div>
 
@@ -136,7 +136,7 @@ if(!empty($_GET['id'])){
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Attachment*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                         <input type='file' multiple="" name='file' class="filestyle" data-classButton="" data-buttonName="btn btn-flat btn-default" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files">
+                                         <input type='file' multiple="" name='file[]' class="filestyle" data-classButton="" data-buttonName="btn btn-flat btn-default" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files">
                                     </div>
                                 </div>
 

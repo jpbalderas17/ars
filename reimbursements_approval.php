@@ -23,6 +23,7 @@
     $departments=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as department FROM departments WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
     $users=$con->myQuery("SELECT id,CONCAT(last_name,', ',first_name,' ',middle_name) as user FROM users WHERE is_deleted=0 ORDER BY last_name")->fetchAll(PDO::FETCH_ASSOC);
     $expense_classifications=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as expense_classification FROM expense_classifications WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
+    $tax_types=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as tax FROM tax_types WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
 	makeHead("Approve Reimbursements");
 ?>
 <?php
@@ -52,7 +53,7 @@
                               
                           <label class='col-md-3 text-right' >Department</label>
                           <div class='col-md-3'>
-                            <select class='form-control' name='department_id' data-placeholder='Select Department' onchange='getUsers()' style='width:100%'>
+                            <select class='form-control' name='department_id' data-placeholder='Filter By Department' onchange='getUsers()' style='width:100%'>
                             <?php
                                 echo makeOptions($departments);
                             ?>
@@ -60,7 +61,7 @@
                           </div>
                           <label class='col-md-3 text-right' >Employee</label>
                           <div class='col-md-3'>
-                            <select class='form-control' name='user_id' data-placeholder='Select User' style='width:100%'>
+                            <select class='form-control' name='user_id' data-placeholder='Filter By User' style='width:100%'>
                             <?php
                                 echo makeOptions($users);
                             ?>
@@ -71,14 +72,23 @@
                               
                           <label class='col-md-3 text-right' >Expense Classification</label>
                           <div class='col-md-3'>
-                            <select class='form-control' name='expense_classification_id' data-placeholder='Select Expense Classification'>
+                            <select class='form-control' name='expense_classification_id' data-placeholder='Filter By Expense Classification'>
                             <?php
                                 echo makeOptions($expense_classifications);
                             ?>
                             </select>
                           </div>
                           
+                          <label class='col-md-3 text-right' >Tax Type</label>
+                          <div class='col-md-3'>
+                            <select class='form-control' name='tax_type_id' data-placeholder='Filter By Tax Type'>
+                            <?php
+                                echo makeOptions($tax_types);
+                            ?>
+                            </select>
+                          </div>
                       </div>
+
                       <div class='form-group'>
                           <div class='col-md-4 col-md-offset-4 text-right'>
                             <button type='button'  class='btn-flat btn btn-block btn-brand' onclick='filter_search()'>Filter</button>
@@ -110,6 +120,8 @@
                                         <th class='text-center'>Amount</th>
                                         <th class='text-center'>Description of Transaction</th>
                                         <th class='text-center'>Description of Expense</th>
+                                        <th class='text-center'>Expense Classification</th>
+                                        <th class='text-center'>Tax Type</th>
                                         <th class='text-center'>Action</th>
                                     </tr>
                                 </tr>
@@ -145,7 +157,8 @@
                     d.end_date=$("input[name='date_end']").val();
                     d.department_id=$("select[name='department_id']").val();
                     d.user_id=$("select[name='user_id']").val();
-                    d.expense_classification_id=$("select[name='user_id']").val();
+                    d.expense_classification_id=$("select[name='expense_classification_id']").val();
+                    d.tax_type_id=$("select[name='tax_type_id']").val();
                   }
                 },"language": {
                     "zeroRecords": "Reimbursement not found"
@@ -162,6 +175,9 @@
           allowClear:true
         });
         $("select[name='expense_classification_id']").select2({
+          allowClear:true
+        });
+        $("select[name='tax_type_id']").select2({
           allowClear:true
         });
 

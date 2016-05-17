@@ -92,6 +92,12 @@ $columns = array(
     array( 'db' => 'description','dt' => ++$index,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
+    array( 'db' => 'expense_classification','dt' => ++$index,'formatter'=>function($d,$row){
+        return htmlspecialchars($d);
+    }),
+    array( 'db' => 'tax_type','dt' => ++$index,'formatter'=>function($d,$row){
+        return htmlspecialchars($d);
+    }),
     // array( 'db' => 'notes','dt' => ++$index ),
     array(
         'db'        => 'id',
@@ -105,9 +111,9 @@ $columns = array(
             return $action_buttons;
         }
     )
-    // ,
-    // array( 'db' => 'asset_status','dt' => ++$index ),
-    // array( 'db' => 'last_name','dt' => ++$index ),
+    ,
+    array( 'db' => 'expense_classification_id','dt' => ++$index ),
+    array( 'db' => 'tax_type_id','dt' => ++$index ),
     // array( 'db' => 'first_name','dt' => ++$index ),
     // array( 'db' => 'middle_name','dt' => ++$index ),
 );
@@ -154,7 +160,6 @@ if(!empty($_GET['user_id'])){
 }
 
 
-
 if(!empty($dep_sql) || !empty($user_sql)){
     $filter_sql=" AND user_id IN (SELECT id FROM users u WHERE {$filter_sql})";
 }
@@ -162,6 +167,25 @@ else{
     $filter_sql="";
 }
 
+if(!empty($_GET['expense_classification_id'])){
+    $user_sql="expense_classification_id=:expense_classification_id";
+    $inputs['expense_classification_id']=$_GET['expense_classification_id'];
+    
+        $filter_sql.=" AND ";
+    
+    $bindings[]=array('key'=>'expense_classification_id','val'=>$_GET['expense_classification_id'],'type'=>0);
+    $filter_sql.=$user_sql;
+}
+
+if(!empty($_GET['tax_type_id'])){
+    $user_sql="tax_type_id=:tax_type_id";
+    $inputs['tax_type_id']=$_GET['tax_type_id'];
+    
+        $filter_sql.=" AND ";
+    
+    $bindings[]=array('key'=>'tax_type_id','val'=>$_GET['tax_type_id'],'type'=>0);
+    $filter_sql.=$user_sql;
+}
 
 if(!empty($_GET['start_date'])){
     $date_start=date_create($_GET['start_date']);
@@ -207,7 +231,7 @@ $filter_sql.=$date_filter;
 //         $whereAll=" is_deleted=0 AND check_out_date <> '0000-00-00'";
 //     }
 // }
-$whereAll=" status='For Audit'";
+$whereAll=" status='For Approval'";
 $whereAll.=$filter_sql;
 function jp_bind($bindings)
 {
@@ -233,7 +257,7 @@ $complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($colum
              //var_dump($bindings);
 // echo $where;
 // echo $complete_query;
-// // var_dump($bindings);
+// var_dump($bindings);
 // die;
 
 $data=$con->myQuery($complete_query,$bindings)->fetchAll();
