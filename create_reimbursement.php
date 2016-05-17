@@ -68,13 +68,13 @@ if(!empty($_GET['id'])){
 				?>
 
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
-                        <form class='form-horizontal' method='POST' action='create_users.php'>
+                        <form class='form-horizontal' method='POST' enctype="multipart/form-data" action='save_reimbursement.php'>
                                 <input type='hidden' name='id' value='<?php echo !empty($organization)?$organization['id']:""?>'>
                                 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Name of Payee*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type="text" class="form-control" name="payee_name" placeholder="Enter First Name" value="<?php echo !empty($organization)?$organization["first_name"]:"" ?>" required>
+                                        <input type="text" class="form-control" name="payee" placeholder="Enter First Name" value="<?php echo !empty($organization)?$organization["first_name"]:"" ?>" required>
                                     </div>
                                 </div>
                                 
@@ -106,6 +106,22 @@ if(!empty($_GET['id'])){
                                 </div>
 
                                 <div class='form-group'>
+                                    <label class='col-sm-12 col-md-3 control-label'> Transaction Date*</label>
+                                    <div class='col-sm-12 col-md-9'>
+                                        <?php
+                                        $start_date="";
+                                         if(!empty($maintenance)){
+                                            $start_date=$maintenance['start_date'];
+                                            if($start_date=="0000-00-00"){
+                                                $start_date="";
+                                            }
+                                         }
+                                        ?>
+                                        <input type='date' class='form-control' name='transaction_date'  value='<?php echo !empty($account)?$account['dob']:"" ?>' required>
+                                    </div>
+                                </div>
+
+                                <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Amount*</label>
                                     <div class='col-sm-12 col-md-9'>
                                         <input type='text' class='form-control' name='amount' placeholder='Enter Username' value='<?php echo !empty($organization)?$organization['username']:"" ?>' required>
@@ -122,21 +138,21 @@ if(!empty($_GET['id'])){
                                 <div class='form-group' id='invoicediv' style="display: none;">
                                     <label class='col-sm-12 col-md-3 control-label'> Invoice Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Password' value='<?php echo !empty($organization)?htmlspecialchars(decryptIt($organization['password'])):''; ?>' required>
+                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Password' value='<?php echo !empty($organization)?htmlspecialchars(decryptIt($organization['password'])):''; ?>' >
                                     </div>
                                 </div>
 
-                                <div class='form-group'>
+                                <!--<div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Cost Centers*</label>
                                     <div class='col-sm-12 col-md-9'>
                                         <input type='text' class='form-control' name='cost_center' placeholder='Enter Email Address' value='<?php echo !empty($organization)?$organization['email']:"" ?>' required>
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Attachment*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                         <input type='file' multiple="" name='file' class="filestyle" data-classButton="" data-buttonName="btn btn-flat btn-default" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files">
+                                         <input type='file' multiple="multiple" name='file[]' id='file' required class="filestyle" data-classButton="" data-buttonName="btn btn-flat btn-default" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files">
                                     </div>
                                 </div>
 
@@ -153,7 +169,7 @@ if(!empty($_GET['id'])){
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
                                         <button type='submit' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Save</button>
-                                        <a href='users.php' class='btn btn-flat btn-default'>Cancel</a>
+                                        <a href='index.php' class='btn btn-flat btn-default'>Cancel</a>
                                     </div>
                                     
                                 </div>                        
