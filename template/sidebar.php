@@ -38,7 +38,7 @@
               if(AllowUser(array(1,2))):
             ?>
              <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
-            "report_asset.php",
+            "reimbursements_approval.php",
             "reimbursements_audit.php",
             "report_asset_maintenance.php",
             "consumables_report.php",
@@ -53,8 +53,8 @@
                 <?php
                   if(AllowUser(array(1))):
                 ?>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset.php"?"active":"";?>">
-                    <a href="report_asset.php"><i class="fa fa-circle-o"></i><span>Approval</span></a>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_approval.php"?"active":"";?>">
+                    <a href="reimbursements_approval.php"><i class="fa fa-circle-o"></i><span>Approval</span></a>
                 </li>
                 <?php
                   endif;

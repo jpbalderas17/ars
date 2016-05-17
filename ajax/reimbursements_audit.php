@@ -7,6 +7,8 @@ if(!isLoggedIn()){
 if(!AllowUser(array(1,2))){
     redirect("index.php");
 }
+
+
 // var_dump($_GET);
  
 // Table's primary key
@@ -95,9 +97,9 @@ $columns = array(
         'formatter' => function( $d, $row ) {
 
             $action_buttons="";
-                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Return Request' href='frm_assets.php?id={$d}'><span class='fa fa-question'></span></a> ";
+                    $action_buttons.="<button class='btn btn-sm btn-brand btn-flat'  title='Return Request' onclick='return_request(\"{$row['id']}\")'><span  class='fa fa-arrow-left'></span></button>&nbsp;";
                     $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='View Details' href='audit_reimbursement.php?id={$d}'><span class='fa fa-search'></span></a> ";
-                    $action_buttons.="<a class='btn btn-flat btn-sm btn-danger' title='Reject Request' href='delete.php?id={$d}&t=a' onclick='return confirm(\"Are you sure you want to delete this asset?.\")'><span class='fa fa-close'></span></a> ";
+                    $action_buttons.="<button class='btn btn-sm btn-danger btn-flat'  title='Reject Request' onclick='reject(\"{$row['id']}\")'><span  class='fa fa-close'></span></button>&nbsp;";
             return $action_buttons;
         }
     )

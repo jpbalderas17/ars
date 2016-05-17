@@ -55,7 +55,7 @@
 <?php
 if($pageTitle=="Login"):
 ?>
-<body class="hold-transition login-page" style="background: #F2F2F2">
+<body class="hold-transition skin-brand-light login-page" style="background: #F2F2F2">
 <?php
 else:
 ?>

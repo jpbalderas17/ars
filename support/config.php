@@ -183,7 +183,8 @@
 function record_movement($reimbursement_id,$action,$notes=""){
 	global $con;
 	try {
-		$con->myQuery("INSERT reimbursement_movement(reimbursement_id,action_time,action,notes) VALUES(:reimbursement_id,NOW(),:action,:notes)",array("reimbursement_id"=>$reimbursement_id,"action"=>$action,"notes"=>$notes));
+		$con->myQuery("INSERT reimbursement_movement(reimbursement_id,action_time,action,notes,user_id) VALUES(:reimbursement_id,NOW(),:action,:notes,:user_id)",
+			array("reimbursement_id"=>$reimbursement_id,"action"=>$action,"notes"=>$notes,"user_id"=>$_SESSION[WEBAPP]['user']['id']));
 		return true;
 	} catch (Exception $e) {
 		return false;

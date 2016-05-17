@@ -22,8 +22,8 @@
   }
     $departments=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as department FROM departments WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
     $users=$con->myQuery("SELECT id,CONCAT(last_name,', ',first_name,' ',middle_name) as user FROM users WHERE is_deleted=0 ORDER BY last_name")->fetchAll(PDO::FETCH_ASSOC);
-    //$expense_classifications=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as expense_classification FROM expense_classifications WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
-	makeHead("Audit Reimbursements");
+    $expense_classifications=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as expense_classification FROM expense_classifications WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
+	makeHead("Approve Reimbursements");
 ?>
 <?php
 	 require_once("template/header.php");
@@ -31,7 +31,7 @@
 ?>
 <div class='content-wrapper'>
     <div class='content-header'>
-        <h1 class='text-center page-header text-brand'>Audit Reimbursements</h1>
+        <h1 class='text-center page-header text-brand'>Approve Reimbursements</h1>
     </div>
     <section class='content'>
         <div class="row">
@@ -67,7 +67,7 @@
                             </select>
                           </div>
                       </div>
-                      <!-- <div class='form-group'>
+                      <div class='form-group'>
                               
                           <label class='col-md-3 text-right' >Expense Classification</label>
                           <div class='col-md-3'>
@@ -78,7 +78,7 @@
                             </select>
                           </div>
                           
-                      </div> -->
+                      </div>
                       <div class='form-group'>
                           <div class='col-md-4 col-md-offset-4 text-right'>
                             <button type='button'  class='btn-flat btn btn-block btn-brand' onclick='filter_search()'>Filter</button>
@@ -125,7 +125,7 @@
     </section>
 </div>
 <?php
-    $return_page="reimbursements_audit.php";
+    $return_page="reimbursements_approval.php";
     require_once('./include/modal_query.php');
     require_once('./include/modal_reject.php');
 ?>
@@ -139,12 +139,13 @@
                 "serverSide": true,
                 "select":true,
                 "ajax":{
-                  "url":"ajax/reimbursements_audit.php",
+                  "url":"ajax/reimbursements_approval.php",
                   "data":function(d){
                     d.start_date=$("input[name='date_start']").val();
                     d.end_date=$("input[name='date_end']").val();
                     d.department_id=$("select[name='department_id']").val();
                     d.user_id=$("select[name='user_id']").val();
+                    d.expense_classification_id=$("select[name='user_id']").val();
                   }
                 },"language": {
                     "zeroRecords": "Reimbursement not found"
