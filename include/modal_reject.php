@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-brand btn-flat">Reject</button>
+            <button type="submit" class="btn btn-brand btn-flat">Reject Request</button>
           </div>
         </form>
       </div><!-- /.modal-content -->

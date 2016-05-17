@@ -32,6 +32,22 @@
 				}
 				// var_dump($is_valid);
 			}
+			$required_fieds=array(
+			"email_username"=>"Enter Username. <br/>",
+			"email_password"=>"Enter Password. <br/>",
+			"email_host"=>"Enter Host. <br/>",
+			"email_port"=>"Enter Port"
+			);
+		
+			$errors="";
+
+			foreach ($required_fieds as $key => $value) {
+				if(empty($inputs[$key])){
+					$errors.=$value;
+				}else{
+					#CUSTOM VALIDATION
+				}
+			}
 
 			if($errors!=""){
 				Alert("You have the following errors: <br/>".$errors,"danger");
@@ -39,8 +55,9 @@
 				die;
 			}
 			else{
+				$inputs['email_password']=encryptIt($inputs['email_password']);
 				Alert("Update successful.","success");
-				$con->myQuery("UPDATE settings SET default_password=?",array($inputs['default_password']));
+				$con->myQuery("UPDATE settings SET default_password=:default_password,email_username=:email_username,email_password=:email_password,email_host=:email_host,email_port=:email_port",$inputs);
 				redirect("settings.php");
 				die;
 			}

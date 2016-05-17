@@ -12,7 +12,7 @@
     //$asset_models=$con->myQuery("SELECT id,name FROM asset_models WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
     //$locations=$con->myQuery("SELECT id,name FROM locations WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
                     						
-    $data=$con->myQuery("SELECT * FROM settings LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+    $data=$con->myQuery("SELECT id,default_password,email_username,email_password,email_host,email_port  FROM settings LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 	makeHead("Settings");
 ?>
 <?php
@@ -38,7 +38,30 @@
                                         <input type='text' class='form-control' name='default_password' placeholder='Enter secret question' value='<?php echo !empty($data)?$data['default_password']:"" ?>' required>
                                     </div>
                                 </div>
-
+                                <div class='form-group'>
+                                    <label class='col-md-3 control-label'>Email *</label>
+                                    <div class='col-md-9'>
+                                      <input type="email" name='email_username' required="" class='form-control' value='<?php echo !empty($data)?$data['email_username']:'' ?>'/>
+                                    </div>
+                                  </div>
+                                  <div class='form-group'>
+                                    <label class='col-md-3 control-label'>Password *</label>
+                                    <div class='col-md-9'>
+                                      <input type="password" name='email_password' required="" class='form-control' value='<?php echo !empty($data)?decryptIt($data['email_password']):'' ?>'/>
+                                    </div>
+                                  </div>
+                                  <div class='form-group'>
+                                    <label class='col-md-3 control-label'>Email Host *</label>
+                                    <div class='col-md-9'>
+                                      <input type="text" name='email_host' required="" class='form-control' value='<?php echo !empty($data)?$data['email_host']:'' ?>'/>
+                                    </div>
+                                  </div>
+                                  <div class='form-group'>
+                                    <label class='col-md-3 control-label'>Email Port *</label>
+                                    <div class='col-md-9'>
+                                      <input type="text" name='email_port' required="" class='form-control' value='<?php echo !empty($data)?$data['email_port']:'' ?>'/>
+                                    </div>
+                                  </div>
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
                                         <button type='submit' class='btn btn-flat btn-brand'> <span class='fa fa-check'></span> Save</button>

@@ -32,6 +32,9 @@
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
                     <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Returned Reimbursements</span></a>
                 </li>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
+                    <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Rejected Reimbursements</span></a>
+                </li>
               </ul>
             </li>
             <?php
