@@ -48,16 +48,16 @@ $primaryKey = 'id';
 $index=-1;
 
 $columns = array(
-    array(
-        'db'        => 'file_date',
-        'dt'        => ++$index,
-        'formatter' => function( $d, $row ) {
-            // return "<button class='btn btn-sm btn-flat btn-success'  onclick='get_barcode({$row['id']})' title='View Barcode'><span class='fa fa-barcode'></span></button>";
-            // return "<a href='barcode/download.php?id={$row['id']}' class='btn btn-sm btn-flat btn-success' title='Download Barcode'><span class='fa fa-barcode'></span></a>";
-            $date=date_create($d);
-            return htmlspecialchars($date->format("m/d/Y"));
-        }
-    ),
+    // array(
+    //     'db'        => 'file_date',
+    //     'dt'        => ++$index,
+    //     'formatter' => function( $d, $row ) {
+    //         // return "<button class='btn btn-sm btn-flat btn-success'  onclick='get_barcode({$row['id']})' title='View Barcode'><span class='fa fa-barcode'></span></button>";
+    //         // return "<a href='barcode/download.php?id={$row['id']}' class='btn btn-sm btn-flat btn-success' title='Download Barcode'><span class='fa fa-barcode'></span></a>";
+    //         $date=date_create($d);
+    //         return htmlspecialchars($date->format("m/d/Y"));
+    //     }
+    // ),
     array( 'db' => 'transaction_date','dt' => ++$index ,'formatter'=>function($d,$row){
         $date=date_create($d);
         return htmlspecialchars($date->format("m/d/Y"));
@@ -92,12 +92,6 @@ $columns = array(
     array( 'db' => 'description','dt' => ++$index,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
-    array( 'db' => 'expense_classification','dt' => ++$index,'formatter'=>function($d,$row){
-        return htmlspecialchars($d);
-    }),
-    array( 'db' => 'tax_type','dt' => ++$index,'formatter'=>function($d,$row){
-        return htmlspecialchars($d);
-    }),
     // array( 'db' => 'notes','dt' => ++$index ),
     array(
         'db'        => 'id',
@@ -105,17 +99,16 @@ $columns = array(
         'formatter' => function( $d, $row ) {
 
             $action_buttons="";
-                    $action_buttons.="<button class='btn btn-sm btn-brand btn-flat'  title='Return Request' onclick='return_request(\"{$row['id']}\")'><span  class='fa fa-arrow-left'></span></button>&nbsp;";
-                    $action_buttons.="<form method='post' action='approve_reimbursement.php' onsubmit='return confirm(\"Are you sure you want to approve this request?\")' style='display:inline'>";
-                    $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='reimbursements_approval.php'>";
-                    $action_buttons.="<button class='btn btn-sm btn-brand btn-flat' value='leave' title='Approve Request'><span class='fa fa-check'></span></button></form>&nbsp;";
-                    $action_buttons.="<button class='btn btn-sm btn-danger btn-flat'  title='Reject Request' onclick='reject(\"{$row['id']}\")'><span  class='fa fa-close'></span></button>&nbsp;";
+                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}'><span class='fa fa-pencil'></span></a> ";
+                    $action_buttons.="<form method='post' action='delete_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to delete this draft?\")' style='display:inline'>";
+                    $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='reimbursements_drafts.php'>";
+                    $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Approve Request'><span class='fa fa-trash'></span></button></form>&nbsp;";
             return $action_buttons;
         }
     )
-    ,
-    array( 'db' => 'expense_classification_id','dt' => ++$index ),
-    array( 'db' => 'tax_type_id','dt' => ++$index ),
+    // ,
+    // array( 'db' => 'asset_status','dt' => ++$index ),
+    // array( 'db' => 'last_name','dt' => ++$index ),
     // array( 'db' => 'first_name','dt' => ++$index ),
     // array( 'db' => 'middle_name','dt' => ++$index ),
 );
@@ -144,50 +137,32 @@ $filter_sql="";
 $dep_sql="";
 $user_sql="";
 $get_val="";
-if(!empty($_GET['department_id'])){
-    $dep_sql="u.department_id=:department_id";
-    $inputs['department_id']=$_GET['department_id'];
-    $filter_sql.=$dep_sql;
-    $bindings[]=array('key'=>'department_id','val'=>$_GET['department_id'],'type'=>0);
-}
+// if(!empty($_GET['department_id'])){
+//     $dep_sql="u.department_id=:department_id";
+//     $inputs['department_id']=$_GET['department_id'];
+//     $filter_sql.=$dep_sql;
+//     $bindings[]=array('key'=>'department_id','val'=>$_GET['department_id'],'type'=>0);
+// }
 
-if(!empty($_GET['user_id'])){
-    $user_sql="u.id=:user_id";
-    $inputs['user_id']=$_GET['user_id'];
-    if(!empty($filter_sql)){
-        $filter_sql.=" AND ";
-    }
-    $bindings[]=array('key'=>'user_id','val'=>$_GET['user_id'],'type'=>0);
-    $filter_sql.=$user_sql;
-}
+// if(!empty($_GET['user_id'])){
+//     $user_sql="u.id=:user_id";
+//     $inputs['user_id']=$_GET['user_id'];
+//     if(!empty($filter_sql)){
+//         $filter_sql.=" AND ";
+//     }
+//     $bindings[]=array('key'=>'user_id','val'=>$_GET['user_id'],'type'=>0);
+//     $filter_sql.=$user_sql;
+// }
 
 
-if(!empty($dep_sql) || !empty($user_sql)){
-    $filter_sql=" AND user_id IN (SELECT id FROM users u WHERE {$filter_sql})";
-}
-else{
-    $filter_sql="";
-}
 
-if(!empty($_GET['expense_classification_id'])){
-    $user_sql="expense_classification_id=:expense_classification_id";
-    $inputs['expense_classification_id']=$_GET['expense_classification_id'];
-    
-        $filter_sql.=" AND ";
-    
-    $bindings[]=array('key'=>'expense_classification_id','val'=>$_GET['expense_classification_id'],'type'=>0);
-    $filter_sql.=$user_sql;
-}
+// if(!empty($dep_sql) || !empty($user_sql)){
+//     $filter_sql=" AND user_id IN (SELECT id FROM users u WHERE {$filter_sql})";
+// }
+// else{
+//     $filter_sql="";
+// }
 
-if(!empty($_GET['tax_type_id'])){
-    $user_sql="tax_type_id=:tax_type_id";
-    $inputs['tax_type_id']=$_GET['tax_type_id'];
-    
-        $filter_sql.=" AND ";
-    
-    $bindings[]=array('key'=>'tax_type_id','val'=>$_GET['tax_type_id'],'type'=>0);
-    $filter_sql.=$user_sql;
-}
 
 if(!empty($_GET['start_date'])){
     $date_start=date_create($_GET['start_date']);
@@ -233,7 +208,10 @@ $filter_sql.=$date_filter;
 //         $whereAll=" is_deleted=0 AND check_out_date <> '0000-00-00'";
 //     }
 // }
-$whereAll=" status='For Approval' AND is_deleted=0";
+//             $bindings[]=array('key'=>'status','val'=>$_GET['status'],'type'=>0);
+$whereAll=" status='Draft' AND is_deleted=0";
+$whereAll.=" AND user_id=:user_id";
+$bindings[]=array('key'=>'user_id','val'=>$_SESSION[WEBAPP]['user']['id'],'type'=>0);
 $whereAll.=$filter_sql;
 function jp_bind($bindings)
 {
@@ -259,7 +237,7 @@ $complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($colum
              //var_dump($bindings);
 // echo $where;
 // echo $complete_query;
-// var_dump($bindings);
+// // var_dump($bindings);
 // die;
 
 $data=$con->myQuery($complete_query,$bindings)->fetchAll();

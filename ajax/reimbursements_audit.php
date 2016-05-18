@@ -207,7 +207,7 @@ $filter_sql.=$date_filter;
 //         $whereAll=" is_deleted=0 AND check_out_date <> '0000-00-00'";
 //     }
 // }
-$whereAll=" status='For Audit'";
+$whereAll=" status='For Audit' AND is_deleted=0";
 $whereAll.=$filter_sql;
 function jp_bind($bindings)
 {

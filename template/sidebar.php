@@ -14,7 +14,7 @@
               </a>
             </li>
              <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
-            "report_asset.php",
+            "reimbursements_drafts.php",
             "reimbursements_audit.php",
             "report_asset_maintenance.php",
             "consumables_report.php",
@@ -29,11 +29,14 @@
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset.php"?"active":"";?>">
                     <a href="report_asset.php"><i class="fa fa-circle-o"></i><span>Reimbursements</span></a>
                 </li>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
-                    <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Returned Reimbursements</span></a>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_drafts.php"?"active":"";?>">
+                    <a href="reimbursements_drafts.php"><i class="fa fa-circle-o"></i><span>Draft Reimbursements</span></a>
                 </li>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
-                    <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Rejected Reimbursements</span></a>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="returned_reimbursements.php"?"active":"";?>">
+                    <a href="returned_reimbursements.php"><i class="fa fa-circle-o"></i><span>Returned Reimbursements</span></a>
+                </li>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="rejected_reimbursements.php"?"active":"";?>">
+                    <a href="rejected_reimbursements.php"><i class="fa fa-circle-o"></i><span>Rejected Reimbursements</span></a>
                 </li>
               </ul>
             </li>
