@@ -16,9 +16,8 @@
              <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
             "reimbursements_drafts.php",
             "reimbursements_audit.php",
-            "report_asset_maintenance.php",
-            "consumables_report.php",
-            "consumable_activity_report.php"
+            "returned_reimbursements.php",
+            "rejected_reimbursements.php"
             )))?"active":"";?>'>
               <a href="#">
                 <i class="fa fa-file-text"></i>
@@ -59,9 +58,9 @@
                 <?php
                   if(AllowUser(array(1))):
                 ?>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_approval.php"?"active":"";?>">
-                    <a href="reimbursements_approval.php"><i class="fa fa-circle-o"></i><span>Approval</span></a>
-                </li>
+                  <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_approval.php"?"active":"";?>">
+                      <a href="reimbursements_approval.php"><i class="fa fa-circle-o"></i><span>Approval</span></a>
+                  </li>
                 <?php
                   endif;
                 ?>

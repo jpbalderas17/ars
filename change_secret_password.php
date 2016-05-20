@@ -20,7 +20,7 @@
     <section class='content'>
         <div class="row">
             <div class="col-lg-12">
-                    <h3 class="page-header text-center text-green">Secret Question</h3>
+                    <h3 class="page-header text-center text-brand">Secret Question</h3>
                 </div>
                 <div class='col-lg-12'>
                     <?php
@@ -44,8 +44,8 @@
                                 </div>
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
+                                        <button type='submit' class='btn btn-flat btn-brand'> <span class='fa fa-check'></span> Save</button>
                                         <a href='view_user.php?id=<?php echo $_SESSION[WEBAPP]['user']['id']?>' class='btn btn-flat btn-default' onclick="return confirm('<?php echo !empty($asset) && !empty($asset['id'])?'Are you sure you want to cancel the modification of the secret question?':'Are you sure you want to cancel the modification of the secret question?';?>')">Cancel</a>
-                                        <button type='submit' class='btn btn-flat btn-success'> <span class='fa fa-check'></span> Save</button>
                                     </div>
                                     
                                 </div>

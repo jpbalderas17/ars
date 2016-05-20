@@ -62,9 +62,9 @@ $columns = array(
         $date=date_create($d);
         return htmlspecialchars($date->format("m/d/Y"));
     }),
-    //array( 'db' => 'serial_number','dt' => ++$index ),
-    array( 'db' => 'user','dt' => ++$index ),
-    array( 'db' => 'department','dt' => ++$index ),
+
+    // array( 'db' => 'user','dt' => ++$index ),
+    // array( 'db' => 'department','dt' => ++$index ),
     array( 'db' => 'payee','dt' => ++$index,'formatter'=> function ($d,$row){
             return htmlspecialchars($d);
         
@@ -72,6 +72,9 @@ $columns = array(
     array( 'db' => 'amount','dt' => ++$index,'formatter'=>function($d,$row){
         return number_format($d,2);
     } ),
+    array( 'db' => 'or_number','dt' => ++$index ,'formatter'=>function($d,$row){
+        return htmlspecialchars($d);
+    }),
     array( 'db' => 'goods_services','dt' => ++$index,'formatter'=>function($d,$row){
         switch ($d) {
             case '1':
@@ -102,7 +105,7 @@ $columns = array(
                     $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}'><span class='fa fa-pencil'></span></a> ";
                     $action_buttons.="<form method='post' action='delete_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to delete this draft?\")' style='display:inline'>";
                     $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='reimbursements_drafts.php'>";
-                    $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Approve Request'><span class='fa fa-trash'></span></button></form>&nbsp;";
+                    $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Delete Draft'><span class='fa fa-trash'></span></button></form>&nbsp;";
             return $action_buttons;
         }
     )

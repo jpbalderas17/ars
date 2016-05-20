@@ -23,7 +23,7 @@
     // $departments=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as department FROM departments WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
     // $users=$con->myQuery("SELECT id,CONCAT(last_name,', ',first_name,' ',middle_name) as user FROM users WHERE is_deleted=0 ORDER BY last_name")->fetchAll(PDO::FETCH_ASSOC);
     //$expense_classifications=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as expense_classification FROM expense_classifications WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
-	makeHead("Draft Reimbursements");
+	makeHead("Returned Reimbursements");
 ?>
 <?php
 	 require_once("template/header.php");
@@ -31,7 +31,7 @@
 ?>
 <div class='content-wrapper'>
     <div class='content-header'>
-        <h1 class='text-center page-header text-brand'>Draft Reimbursements</h1>
+        <h1 class='text-center page-header text-brand'>Returned Reimbursements</h1>
     </div>
     <section class='content'>
         <div class="row">
@@ -46,6 +46,17 @@
                           <label class='col-md-3 text-right' >End Date (Transaction Date)</label>
                           <div class='col-md-3'>
                             <input type='date' name='date_end' class='form-control' id='date_end' value='<?php echo !empty($_GET['date_end'])?htmlspecialchars($_GET['date_end']):''?>'>
+                          </div>
+                      </div>
+                      <div class='form-group'>
+                              
+                          <label class='col-md-3 text-right' >Start Date (File Date)</label>
+                          <div class='col-md-3'>
+                            <input type='date' name='date_start_file' class='form-control' id='date_start_file' value='<?php echo !empty($_GET['date_start'])?htmlspecialchars($_GET['date_start']):''?>'>
+                          </div>
+                          <label class='col-md-3 text-right' >End Date (File Date)</label>
+                          <div class='col-md-3'>
+                            <input type='date' name='date_end_file' class='form-control' id='date_end_file' value='<?php echo !empty($_GET['date_end'])?htmlspecialchars($_GET['date_end']):''?>'>
                           </div>
                       </div>
                      
@@ -84,8 +95,8 @@
                             <thead>
                                 <tr>
                                     <tr>    
-                                        <!-- <th class='date-td text-center'>Date Filed</th> -->
-                                        <th class='text-center'>Transaction Date</th>
+                                        <th class='data-td text-center'>Transaction Date</th>
+                                        <th class='date-td text-center'>Date Filed</th>
                                         <!-- <th class='text-center'>Requestor</th>
                                         <th class='text-center'>Department</th> -->
                                         <th class='text-center'>Payee</th>
@@ -93,6 +104,7 @@
                                         <th class='text-center'>OR Number</th>
                                         <th class='text-center'>Description of Transaction</th>
                                         <th class='text-center'>Description of Expense</th>
+                                        <th class='text-center'>Reason for Return</th>
                                         <th class='text-center'>Action</th>
                                     </tr>
                                 </tr>
@@ -119,10 +131,12 @@
                 "serverSide": true,
                 "select":true,
                 "ajax":{
-                  "url":"ajax/reimbursements_drafts.php",
+                  "url":"ajax/reimbursements_returned.php",
                   "data":function(d){
                     d.start_date=$("input[name='date_start']").val();
                     d.end_date=$("input[name='date_end']").val();
+                    d.start_date_file=$("input[name='date_start_file']").val();
+                    d.end_date_file=$("input[name='date_end_file']").val();
                     d.department_id=$("select[name='department_id']").val();
                     d.user_id=$("select[name='user_id']").val();
                   }

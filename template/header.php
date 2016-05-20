@@ -46,10 +46,10 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="view_user.php?id=<?php echo $_SESSION[WEBAPP]['user']['id']?>" class="btn btn-success btn-flat">User Profile</a>
+                      <a href="view_user.php?id=<?php echo $_SESSION[WEBAPP]['user']['id']?>" class="btn btn-brand btn-flat">User Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="logout.php" class="btn btn-success btn-flat">Sign out</a>
+                      <a href="logout.php" class="btn btn-brand btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

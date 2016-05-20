@@ -48,6 +48,10 @@ $primaryKey = 'id';
 $index=-1;
 
 $columns = array(
+    array( 'db' => 'transaction_date','dt' => ++$index ,'formatter'=>function($d,$row){
+        $date=date_create($d);
+        return htmlspecialchars($date->format("m/d/Y"));
+    }),
     array(
         'db'        => 'file_date',
         'dt'        => ++$index,
@@ -58,20 +62,18 @@ $columns = array(
             return htmlspecialchars($date->format("m/d/Y"));
         }
     ),
-    array( 'db' => 'transaction_date','dt' => ++$index ,'formatter'=>function($d,$row){
-        $date=date_create($d);
-        return htmlspecialchars($date->format("m/d/Y"));
-    }),
     //array( 'db' => 'serial_number','dt' => ++$index ),
     array( 'db' => 'user','dt' => ++$index ),
     array( 'db' => 'department','dt' => ++$index ),
     array( 'db' => 'payee','dt' => ++$index,'formatter'=> function ($d,$row){
             return htmlspecialchars($d);
-        
     }),
     array( 'db' => 'amount','dt' => ++$index,'formatter'=>function($d,$row){
         return number_format($d,2);
     } ),
+    array( 'db' => 'or_number','dt' => ++$index,'formatter'=> function ($d,$row){
+            return htmlspecialchars($d);
+    }),
     array( 'db' => 'goods_services','dt' => ++$index,'formatter'=>function($d,$row){
         switch ($d) {
             case '1':
@@ -184,6 +186,30 @@ if(!empty($date_start)){
 
 if(!empty($date_end)){
     $date_filter.=" AND transaction_date <= '".date_format($date_end,'Y-m-d')."'";
+}
+$filter_sql.=$date_filter;
+
+if(!empty($_GET['start_date_file'])){
+    $date_start_file=date_create($_GET['start_date_file']);
+}
+else{
+    $date_start_file="";
+}
+
+if(!empty($_GET['end_date_file'])){
+    $date_end_file=date_create($_GET['end_date_file']);
+}
+else{
+    $date_end_file="";
+}
+
+$date_filter="";
+if(!empty($date_start_file)){
+    $date_filter.=" AND file_date >= '".date_format($date_start_file,'Y-m-d')."'";
+}
+
+if(!empty($date_end_file)){
+    $date_filter.=" AND file_date <= '".date_format($date_end_file,'Y-m-d')."'";
 }
 $filter_sql.=$date_filter;
 // var_dump($bindings);

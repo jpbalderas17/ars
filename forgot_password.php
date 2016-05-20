@@ -100,7 +100,7 @@
 	makeHead("Login");
 ?>
     <div class="login-box">
-      <div class='login-box-header bg-green'><h4>SGTSI ASSET Management System</h4></div>
+      <div class='login-box-header bg-brand'><h4>SGTSI ASSET Management System</h4></div>
       <div class="login-box-body">
         <?php
           Alert();
@@ -108,7 +108,7 @@
         <?php
           if($step==1):
         ?>
-          <h4 class="login-box-msg text-green">Enter your username</h4>
+          <h4 class="login-box-msg text-brand">Enter your username</h4>
           <form action="forgot_password.php" method="post">
             <input type='hidden' name='step' value='1'>
             <div class="form-group has-feedback">
@@ -117,15 +117,15 @@
             </div>
             <div class="row">
               <div class="col-xs-12 text-center">
-                <button type="submit" class="btn btn-success btn-block btn-flat">Continue</button>
-                <a href='frmlogin.php' class="btn btn-success btn-block btn-flat">Back to Login</a>
+                <button type="submit" class="btn btn-brand btn-block btn-flat">Continue</button>
+                <a href='frmlogin.php' class="btn btn-brand btn-block btn-flat">Back to Login</a>
               </div><!-- /.col -->
             </div>
           </form>
         <?php
           elseif($step==2):
         ?>
-          <h4 class="login-box-msg text-green">Enter the answer to the question</h4>
+          <h4 class="login-box-msg text-brand">Enter the answer to the question</h4>
           <form action="forgot_password.php" method="post">
             <input type='hidden' name='step' value='<?php echo $step; ?>'>
             <input type='hidden' name='username' value='<?php echo $user['username']; ?>'>
@@ -140,8 +140,8 @@
             </div>
             <div class="row">
               <div class="col-xs-12 text-center">
-                <button type="submit" class="btn btn-success btn-block btn-flat">Continue</button>
-                <a href='frmlogin.php' class="btn btn-success btn-block btn-flat">Back to Login</a>
+                <button type="submit" class="btn btn-brand btn-block btn-flat">Continue</button>
+                <a href='frmlogin.php' class="btn btn-brand btn-block btn-flat">Back to Login</a>
               </div><!-- /.col -->
             </div>
           </form>

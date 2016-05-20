@@ -37,15 +37,24 @@
         <div class="row">
                 <div class='col-sm-12'>
                       <form method='get' class='form-horizontal'>
-                      <div class='form-group'>
-                              
-                          <label class='col-md-3 text-right' >Start Date (Transaction Date)</label>
+                          <div class='form-group'>
+                            <label class='col-md-3 text-right' >Start Date (Transaction Date)</label>
                           <div class='col-md-3'>
                             <input type='date' name='date_start' class='form-control' id='date_start' value='<?php echo !empty($_GET['date_start'])?htmlspecialchars($_GET['date_start']):''?>'>
                           </div>
                           <label class='col-md-3 text-right' >End Date (Transaction Date)</label>
                           <div class='col-md-3'>
                             <input type='date' name='date_end' class='form-control' id='date_end' value='<?php echo !empty($_GET['date_end'])?htmlspecialchars($_GET['date_end']):''?>'>
+                          </div>
+                      </div>
+                       <div class='form-group'>
+                          <label class='col-md-3 text-right' >Start Date (File Date)</label>
+                          <div class='col-md-3'>
+                            <input type='date' name='date_start_file' class='form-control' id='date_start_file' value='<?php echo !empty($_GET['date_start'])?htmlspecialchars($_GET['date_start']):''?>'>
+                          </div>
+                          <label class='col-md-3 text-right' >End Date (File Date)</label>
+                          <div class='col-md-3'>
+                            <input type='date' name='date_end_file' class='form-control' id='date_end_file' value='<?php echo !empty($_GET['date_end'])?htmlspecialchars($_GET['date_end']):''?>'>
                           </div>
                       </div>
                       <div class='form-group'>
@@ -96,21 +105,21 @@
                     <?php
                         Alert();
                     ?>
-
                     <div class='dataTable_wrapper '>
                         <table class='table table-bordered table-condensed table-hover ' id='dataTables'>
                             <thead>
                                 <tr>
                                     <tr>    
+                                        <th class='date-td text-center'>Transaction Date</th>
                                         <th class='date-td text-center'>Date Filed</th>
-                                        <th class='text-center'>Transaction Date</th>
                                         <th class='text-center'>Requestor</th>
                                         <th class='text-center'>Department</th>
                                         <th class='text-center'>Payee</th>
                                         <th class='text-center'>Amount</th>
-                                        <th class='text-center'>Description of Transaction</th>
+                                        <th class='text-center'>OR Number</th>
+                                        <th class='text-center' style="min-width:150px">Description of Transaction</th>
                                         <th class='text-center'>Description of Expense</th>
-                                        <th class='text-center'>Action</th>
+                                        <th class='text-center' style="min-width:100px">Action</th>
                                     </tr>
                                 </tr>
                             </thead>
@@ -134,6 +143,7 @@
       $(document).ready(function() {
         dttable=$('#dataTables').DataTable({
                 "scrollY":"400px",
+                "scrollX":"100%",
                 "searching": false,
                 "processing": true,
                 "serverSide": true,
@@ -143,6 +153,8 @@
                   "data":function(d){
                     d.start_date=$("input[name='date_start']").val();
                     d.end_date=$("input[name='date_end']").val();
+                    d.start_date_file=$("input[name='date_start_file']").val();
+                    d.end_date_file=$("input[name='date_end_file']").val();
                     d.department_id=$("select[name='department_id']").val();
                     d.user_id=$("select[name='user_id']").val();
                   }

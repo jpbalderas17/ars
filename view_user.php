@@ -8,7 +8,7 @@
         redirect("index.php");
     }
     if(!empty($_GET['id'])){
-        $asset=$con->myQuery("SELECT CONCAT(first_name,' ',middle_name,' ',last_name) as name,username,email,contact_no,employee_no,location,title,department,id FROM qry_users WHERE id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
+        $asset=$con->myQuery("SELECT CONCAT(first_name,' ',middle_name,' ',last_name) as name,username,email,contact_no,employee_no,title,department,id FROM qry_users WHERE id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
         if(empty($asset)){
             //Alert("Invalid asset selected.");
             Modal("Invalid Users Selected");
@@ -29,7 +29,7 @@
     <section class='content'>
         <div class="row">
             <div class="col-lg-12">
-                    <h3 class="page-header text-center text-green"><?php echo htmlspecialchars($asset['name'])?></h3>
+                    <h3 class="page-header text-center text-brand"><?php echo htmlspecialchars($asset['name'])?></h3>
                 </div>
                 <div class='col-lg-12'>
                     <?php
@@ -42,7 +42,7 @@
                             ?>
                             <div class='row'>
                                 <div class='col-md-12'>
-                                <a href='change_secret_password.php' class='btn btn-success btn-flat'>Change Secret Password</a>
+                                <a href='change_secret_password.php' class='btn btn-brand btn-flat'>Change Secret Question</a>
                                 </div>
                             </div>
                             <?php
@@ -72,87 +72,7 @@
                                     <em><?php echo htmlspecialchars($asset['department'])?></em>
                                 </div>
                             </div>
-                            <div class='row'>
-                                <div class='col-xs-12'>
-                                    <strong>Location: </strong>
-                                    <em><?php echo htmlspecialchars($asset['location'])?></em>
-                                </div>
-                            </div>
-                            <div class='row'>
-                                <div class='col-md-12'>
-                                    </br></br>
-                                    <!--FOR CONSUMABLES-->
-                                    <h4>Consumables</h4>
-                                    <table class='table table-bordered table-condensed ' id='consumables'>
-                                        <thead>
-                                            <tr>    
-                                                <td>Date</td>
-                                                <td>Name</td>
-                                                <td>Actions</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $consumables=$con->myQuery("SELECT NAME,DATE_FORMAT(action_date,'%m/%d/%Y')as action_date,ACTION FROM vw_user WHERE category_type_id=2 AND user_id=? ORDER BY action_date DESC",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
-                                               if(!empty($consumables)):
-
-                                                    foreach ($consumables as $consumable):
-                                            ?>
-                                                    <tr>
-                                                        <td><?php echo $consumable['action_date']?></td>
-                                                        <td><?php echo $consumable['NAME']?></td>
-                                                        <td><?php echo $consumable['ACTION']?></td>
-                                                    </tr>
-                                            <?php
-                                                    endforeach;
-                                                else:
-                                            ?>
-                                                
-                                            <?php
-                                                endif;
-                                            ?>
-                                        </tbody>
-                                    </table>
-
-
-
-                                    </br>
-                                    <!--FOR ASSETS-->
-                                    <h4>Assets</h4>
-                                    <table class='table table-bordered table-condensed ' id='assets'>
-                                        <thead>
-                                            <tr>    
-                                                <td>Date</td>
-                                                <td>Name</td>
-                                                <td>Actions</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $consumables=$con->myQuery("SELECT NAME,DATE_FORMAT(action_date,'%m/%d/%Y')as action_date,ACTION FROM vw_asset WHERE category_type_id=1 AND user_id=? ORDER BY action_date DESC",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
-                                               if(!empty($consumables)):
-
-                                                    foreach ($consumables as $consumable):
-                                            ?>
-                                                    <tr>
-                                                        <td><?php echo $consumable['action_date']?></td>
-                                                        <td><?php echo $consumable['NAME']?></td>
-                                                        <td><?php echo $consumable['ACTION']?></td>
-                                                    </tr>
-                                            <?php
-                                                    endforeach;
-                                                else:
-                                            ?>
-                                                
-                                            <?php
-                                                endif;
-                                            ?>
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
-                            </div>
+                           
                         </div>
                         
 
