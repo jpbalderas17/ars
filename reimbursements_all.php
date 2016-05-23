@@ -20,26 +20,9 @@
   else{
     $date_end="";
   }
-    
-    $getDrafts=$con->myQuery("SELECT 
-reimbursements.transaction_date, 
-CONCAT(users.last_name ,', ', users.first_name ,' ', users.middle_name) as requestor, 
-departments.name as department, 
-reimbursements.payee, 
-reimbursements.amount,
-(CASE reimbursements.goods_services
-when 1 then 'Services'
-when 2 then 'Goods'
-when 3 then 'Goods/Services'
-END) as goods_services, 
-reimbursements.description,
-reimbursements.id
-from reimbursements
-inner JOIN users on reimbursements.user_id=users.id
-inner join departments on users.department_id=departments.id
-where reimbursements.status='Draft'
-AND reimbursements.is_deleted=0
-ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+    // $departments=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as department FROM departments WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
+    // $users=$con->myQuery("SELECT id,CONCAT(last_name,', ',first_name,' ',middle_name) as user FROM users WHERE is_deleted=0 ORDER BY last_name")->fetchAll(PDO::FETCH_ASSOC);
+    //$expense_classifications=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as expense_classification FROM expense_classifications WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
 	makeHead("Draft Reimbursements");
 ?>
 <?php
@@ -103,11 +86,10 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
                                     <tr>    
                                         <!-- <th class='date-td text-center'>Date Filed</th> -->
                                         <th class='text-center'>Transaction Date</th>
-                                        <!-- <th class='text-center'>Requestor</th>
-                                        <th class='text-center'>Department</th> -->
+                                        <th class='text-center'>Requestor</th>
+                                        <th class='text-center'>Department</th>
                                         <th class='text-center'>Payee</th>
                                         <th class='text-center'>Amount</th>
-                                        <th class='text-center'>OR Number</th>
                                         <th class='text-center'>Description of Transaction</th>
                                         <th class='text-center'>Description of Expense</th>
                                         <th class='text-center'>Action</th>
@@ -130,7 +112,6 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
       $(document).ready(function() {
         dttable=$('#dataTables').DataTable({
                 "scrollY":"400px",
-                "scrollX":"100%",
                 "searching": false,
                 "processing": true,
                 "serverSide": true,

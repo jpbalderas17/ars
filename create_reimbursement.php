@@ -12,20 +12,30 @@
 	$organization="";
     
 if(!empty($_GET['id'])){
-        //$organization=$con->myQuery("SELECT id,user_type_id,first_name,middle_name,last_name,username,password,email,contact_no, security_question, security_answer from users WHERE id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
-        //if(empty($organization)){
-            //Alert("Invalid consumables selected.");
-            //  Modal("Invalid user selected");
-            //redirect("users.php");
-            //die();
-        //}
-    }
-    //$org_industries=$con->myQuery("SELECT id,name FROM org_industry")->fetchAll(PDO::FETCH_ASSOC);
-    //$org_ratings=$con->myQuery("SELECT id,name FROM org_ratings")->fetchAll(PDO::FETCH_ASSOC);
-    //$org_types=$con->myQuery("SELECT id,name FROM org_types")->fetchAll(PDO::FETCH_ASSOC);
-    //$contact=$con->myQuery("SELECT id,CONCAT(fname,' ',lname) as name from contacts")->fetchAll(PDO::FETCH_ASSOC);
-    //$user=$con->myQuery("SELECT id, CONCAT(last_name,' ',first_name,' ',middle_name) as name FROM users")->fetchAll(PDO::FETCH_ASSOC);
+$getReimbursement=$con->myQuery("SELECT 
+r.payee,
+r.goods_services,
+r.description,
+r.transaction_date,
+r.amount,
+r.or_number,
+r.invoice_number,
+r.id
+from reimbursements r
+where r.is_deleted=0
+and r.id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
 
+$getAttachments=$con->myQuery("SELECT
+file_name,
+DATE_FORMAT(date_added, '%m/%d/%Y') as date_added,
+file_location,
+id
+from files
+where is_deleted=0
+and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
+
+}
+  
     //$department=$con->myQuery("SELECT id,name FROM departments WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
     //$location=$con->myQuery("SELECT id,name FROM locations WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
     //$user_type=$con->myQuery("SELECT id,name FROM user_types WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
@@ -68,25 +78,22 @@ if(!empty($_GET['id'])){
 				?>
 
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
-                        <form class='form-horizontal' method='POST' action='test.php' enctype="multipart/form-data">
-                                <input type='hidden' name='id' value='<?php echo !empty($organization)?$organization['id']:""?>'>
+                        <form class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data">
+                                <input type='hidden' name='id' id='id' value='<?php echo !empty($getReimbursement)?$getReimbursement["id"]:""?>'>
+                                <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; var_dump(count($getAttachments)); die();?>'>
                                 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Name of Payee*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type="text" class="form-control" name="payee_name" placeholder="Enter First Name" value="<?php echo !empty($organization)?$organization["first_name"]:"" ?>" required>
+                                        <input type="text" class="form-control" name="payee" placeholder="Enter First Name" value="<?php echo !empty($getReimbursement)?$getReimbursement["payee"]:"" ?>" required>
                                     </div>
                                 </div>
                                 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Description of Transaction*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <!--<select class='form-control' required name='user_type_id' placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?>>
-                                            <?php
-                                            echo makeOptions($user_type);
-                                            ?>
-                                        </select>-->
-                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
+                                       
+                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($getReimbursement))?"data-selected='".$getReimbursement['goods_services']."'":NULL ?> style='width:100%' required>
                                                 <option value="1">Services</option>
                                                 <option value="2">Goods</option>
                                                 <option value="3">Goods/Services</option>
@@ -100,36 +107,44 @@ if(!empty($_GET['id'])){
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Description of Expense*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <textarea class="form-control" name="description" placeholder="Enter Middle name" value="<?php echo !empty($organization)?$organization["middle_name"]:"" ?>" required></textarea>
-                                        
+                                        <textarea class="form-control" name="description" placeholder="Enter Middle name" required><?php echo !empty($getReimbursement)?$getReimbursement["description"]:"" ?></textarea>
+                                    </div>
+                                </div>
+
+                                <div class='form-group'>
+                                    <label class='col-sm-12 col-md-3 control-label'> Transaction Date*</label>
+                                    <div class='col-sm-12 col-md-9'>
+                                        <?php
+                                        $start_date="";
+                                         if(!empty($maintenance)){
+                                            $start_date=$maintenance['start_date'];
+                                            if($start_date=="0000-00-00"){
+                                                $start_date="";
+                                            }
+                                         }
+                                        ?>
+                                        <input type='date' class='form-control' name='transaction_date'  value='<?php echo !empty($getReimbursement)?$getReimbursement['transaction_date']:"" ?>' required>
                                     </div>
                                 </div>
 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Amount*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='amount' placeholder='Enter Username' value='<?php echo !empty($organization)?$organization['username']:"" ?>' required>
+                                        <input type='text' class='form-control' name='amount' placeholder='Enter Username' value='<?php echo !empty($getReimbursement)?$getReimbursement['amount']:"" ?>' required>
                                     </div>
                                 </div>
 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> OR Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='or_number' placeholder='Enter Username' value='<?php echo !empty($organization)?$organization['username']:"" ?>' required>
+                                        <input type='text' class='form-control' name='or_number' placeholder='Enter Username' value='<?php echo !empty($getReimbursement)?$getReimbursement['or_number']:"" ?>' required>
                                     </div>
                                 </div>
 
                                 <div class='form-group' id='invoicediv' style="display: none;">
                                     <label class='col-sm-12 col-md-3 control-label'> Invoice Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Password' value='<?php echo !empty($organization)?htmlspecialchars(decryptIt($organization['password'])):''; ?>' >
-                                    </div>
-                                </div>
-
-                                <div class='form-group'>
-                                    <label class='col-sm-12 col-md-3 control-label'> Cost Centers*</label>
-                                    <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='cost_center' placeholder='Enter Email Address' value='<?php echo !empty($organization)?$organization['email']:"" ?>' required>
+                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Username' value='<?php echo !empty($getReimbursement)?$getReimbursement['invoice_number']:"" ?>' >
                                     </div>
                                 </div>
 
@@ -140,35 +155,123 @@ if(!empty($_GET['id'])){
                                     </div>
                                 </div>
 
-                                <!-- <div class='form-group'>
-                                    <label class='col-sm-12 col-md-3 control-label'> Contact Person</label>
-                                    <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='c_num' placeholder='Enter Contact Person' value='<?php echo !empty($organization)?$organization['c_num']:"" ?>'>
-                                    </div>
-                                </div> -->
-
                                 
-                                
+                        
 
-                                <div class='form-group'>
-                                    <div class='col-sm-12 col-md-9 col-md-offset-3 '>
-                                        <button type='submit' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Save</button>
-                                        <a href='users.php' class='btn btn-flat btn-default'>Cancel</a>
-                                    </div>
-                                    
-                                </div>                        
-                        </form>
+
                       </div>
                   </div><!-- /.row -->
+                  <?php
+                    $var='';
+                    if(!empty($_GET['id']))
+                    {
+                       
+                    }
+                    else
+                    {
+                        $var="style='display:none;'";
+                    }
+                    //var_dump($getAttachments);
+                      ?>
+                            <div class='form-group' id='tblAttachments' <?php echo $var?>>
+                             <h4 class='col-sm-12 col-md-6 col-md-offset-3'>Attachments</h4>  
+                                <div class='col-sm-12 col-md-6 col-md-offset-3 text-center'>
+                                    <div class='dataTable_wrapper '>
+                                        <table class='table table-bordered table-condensed table-hover ' id='dataTables'>
+                                            <thead>
+                                                <tr>
+                                                    <tr>    
+                                                        <th class='date-td text-center'>File Name</th>
+                                                        <th class='date-td text-center'>Date Uploaded</th>
+                                                        <th class='text-center'>Action</th>
+                                                    </tr>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                    <?php
+                                                        if(!empty($getAttachments)):   
+                                                        foreach ($getAttachments as $value): 
+                                                    ?>
+                                                <tr>
+                                                    <?php
+                                                            
+                                                                foreach($value as $key=> $data):
+                                                                if($key=='file_location'):
+                                                                elseif($key=='id'):
+                                                    ?>
+                                                
+                                                    <td>
+                                                        <a class='btn btn-brand btn-flat' href='frm_documents.php?id=<?php echo $data;?>'><span class='fa fa-download'></span></a>
+                                                                
+                                                        <a class='btn btn-flat btn-sm btn-danger' href='delete.php?id=<?php echo $category['id']?>&t=dep' onclick='return confirm("This department will be deleted.")'><span class='fa fa-trash'></span></a>
+                                                    </td>
+
+                                                    <?php
+                                                            else:
+                                                    ?>
+
+                                                    <td>
+                                                                <?php
+                                                                    echo htmlspecialchars($data);
+                                                                ?>
+                                                    </td>
+                                                
+                                                    <?php
+                                                            endif;
+                                                            endforeach;
+                                                            
+                                                    ?>
+                                                </tr>
+                                                    <?php
+                                                            endforeach;
+                                                            endif;
+                                                    ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                                <div class='form-group'>
+                                    <div class='col-sm-12 col-md-6 col-md-offset-3 text-center'>
+                                        <button type='submit' name='save' value='draft' class='btn btn-brand btn-flat'> <span class='fa fa-save'></span> Save as Draft</button>
+
+                                        <button type='submit' name='save' value='save' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Submit</button>
+
+                                        <a href='index.php' class='btn btn-flat btn-default'>Cancel</a>
+                                    </div>
+                                    
+                                </div>                      
+                    
+                </form>
           </div><!-- /.row -->
         </section><!-- /.content -->
   </div>
 
 <script type="text/javascript">
-  $(function () {
-        $('#ResultTable').DataTable();
-      });
-
+ var dttable="";
+      $(document).ready(function() {
+        dttable=$('#dataTables').DataTable({
+                "scrollY":"100%",
+                "scrollX":"100%",
+                "searching": false,
+                "lengthChange":false,
+                "language": {
+                    "zeroRecords": "Reimbursement not found"
+                }
+                
+        });
+        $("select[name='user_id']").select2({
+          allowClear:true
+        });
+        $("select[name='department_id']").select2({
+          allowClear:true
+        });
+        $("select[name='expense_classification_id']").select2({
+          allowClear:true
+        });
+    });
  $(document).ready(function(){
     $('#expense_type').on('change', function() {
       if ( this.value == '2')
@@ -181,6 +284,15 @@ if(!empty($_GET['id'])){
         $("#invoicediv").hide();
       }
     });
+});
+
+$(document).ready(function() {
+    if($("#id").val() == ""){
+        $("#tblAttachments").hide();
+    }
+    else{
+         $("#tblAttachments").show();
+    }
 });
 </script>
 

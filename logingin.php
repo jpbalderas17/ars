@@ -49,7 +49,7 @@
 				
 			}
 			else{
-				Alert("This account is currently already logged in.","danger");
+				Alert("This account is currently logged in.","danger");
 				redirect("frmlogin.php");
 				die;
 			}

@@ -25,8 +25,8 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class='treeview-menu'>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset.php"?"active":"";?>">
-                    <a href="report_asset.php"><i class="fa fa-circle-o"></i><span>Reimbursements</span></a>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_all.php"?"active":"";?>">
+                    <a href="reimbursements_all.php"><i class="fa fa-circle-o"></i><span>Reimbursements</span></a>
                 </li>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_drafts.php"?"active":"";?>">
                     <a href="reimbursements_drafts.php"><i class="fa fa-circle-o"></i><span>Draft Reimbursements</span></a>
