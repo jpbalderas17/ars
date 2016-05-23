@@ -18,10 +18,19 @@
 
 		$inputs=array_map('trim', $inputs);
 
-		$employee_user=$con->myQuery("SELECT password FROM users WHERE is_deleted=0 and id=?",array($inputs['emp_id']));
+		$employee_user=$con->myQuery("SELECT password FROM users WHERE is_deleted=0 and id=?",array($inputs['emp_id']))->fetchColumn();
 		//$uname=$con->myQuery("SELECT id,lcase(username) FROM users WHERE is_deleted=0 and username=?",array(strtolower($inputs['username'])));
 
 		$errors="";
+
+		if(empty($inputs['cur_password'])){
+			$errors.="Please enter current password.<br/>";
+		}
+		else{
+			if($inputs['cur_password']!=decryptIt($employee_user)){
+				$errors.="Current password is wrong.<br/>";
+			}
+		}
 
 		if($inputs['password']!=$inputs['con_password']){
 			$errors.="Reenter password.";

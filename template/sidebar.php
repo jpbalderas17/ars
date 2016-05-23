@@ -15,7 +15,8 @@
             </li>
              <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
             "reimbursements_drafts.php",
-            "reimbursements_audit.php",
+            "reimbursements_approved.php",
+            "reimbursements_cancelled.php",
             "returned_reimbursements.php",
             "rejected_reimbursements.php"
             )))?"active":"";?>'>
@@ -28,6 +29,9 @@
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_all.php"?"active":"";?>">
                     <a href="reimbursements_all.php"><i class="fa fa-circle-o"></i><span>Reimbursements</span></a>
                 </li>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_approved.php"?"active":"";?>">
+                    <a href="reimbursements_approved.php"><i class="fa fa-circle-o"></i><span>Approved Reimbursements</span></a>
+                </li>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_drafts.php"?"active":"";?>">
                     <a href="reimbursements_drafts.php"><i class="fa fa-circle-o"></i><span>Draft Reimbursements</span></a>
                 </li>
@@ -36,6 +40,9 @@
                 </li>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="rejected_reimbursements.php"?"active":"";?>">
                     <a href="rejected_reimbursements.php"><i class="fa fa-circle-o"></i><span>Rejected Reimbursements</span></a>
+                </li>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_cancelled.php"?"active":"";?>">
+                    <a href="reimbursements_cancelled.php"><i class="fa fa-circle-o"></i><span>Cancelled Reimbursements</span></a>
                 </li>
               </ul>
             </li>

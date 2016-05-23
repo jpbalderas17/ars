@@ -45,6 +45,12 @@
                     <form class='form-horizontal' name='frm_pass' action='save_password.php' method='POST' onsubmit='return validate(this)'>
 
                       <input type='hidden' name='emp_id' value='<?php echo !empty($emp_id)?$emp_id:''; ?>'>
+                        <div class="form-group">
+                          <label for="name" class="col-sm-2 control-label">Current Password *</label>
+                          <div class="col-sm-9">
+                            <input type="password" class="form-control" id="cur_password" placeholder="Current Password" name='cur_password' value='' required>
+                          </div>
+                        </div>
                      
 
                         <div class="form-group">

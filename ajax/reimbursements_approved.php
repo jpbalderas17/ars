@@ -99,10 +99,17 @@ $columns = array(
     array( 'db' => 'description','dt' => ++$index,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
+    array( 'db' => 'action_date','dt' => ++$index,'formatter'=> function ($d,$row){
+            return htmlspecialchars($d);
+        
+    }),
+    /*
     array( 'db' => 'reason','dt' => ++$index,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
+    */
     // array( 'db' => 'notes','dt' => ++$index ),
+    /*
     array(
         'db'        => 'id',
         'dt'        => ++$index,
@@ -110,12 +117,13 @@ $columns = array(
 
             $action_buttons="";
                     $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}'><span class='fa fa-pencil'></span></a> ";
-                    $action_buttons.="<form method='post' action='cancel_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to cancel this request?\")' style='display:inline'>";
-                    $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='returned_reimbursements.php'>";
+                    $action_buttons.="<form method='post' action='delete_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to cancel this request?\")' style='display:inline'>";
+                    $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='rejected_reimbursements.php'>";
                     $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Cancel Request'><span class='fa fa-close'></span></button></form>&nbsp;";
             return $action_buttons;
         }
     )
+    */
     // ,
     // array( 'db' => 'asset_status','dt' => ++$index ),
     // array( 'db' => 'last_name','dt' => ++$index ),
@@ -243,7 +251,7 @@ $filter_sql.=$date_filter;
 //     }
 // }
 //             $bindings[]=array('key'=>'status','val'=>$_GET['status'],'type'=>0);
-$whereAll=" status='Returned' AND is_deleted=0";
+$whereAll=" status='Approved' AND is_deleted=0";
 $whereAll.=" AND user_id=:user_id";
 $bindings[]=array('key'=>'user_id','val'=>$_SESSION[WEBAPP]['user']['id'],'type'=>0);
 $whereAll.=$filter_sql;
@@ -265,11 +273,8 @@ $where.= !empty($where) ? " AND ".$whereAll:"WHERE ".$whereAll;
 
 
 $bindings=jp_bind($bindings);
-/*
-$complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($columns, 'db'))."`,(SELECT notes FROM reimbursement_movement WHERE action_time='Returned' ORDER BY id DESC) as 'reason'
-             FROM `vw_reimbursements` {$where} {$order} {$limit}";
-*/             
-$complete_query="SELECT SQL_CALC_FOUND_ROWS `transaction_date`,`file_date`, `user`, `department`, `payee`, `amount`, `or_number`,`goods_services`, `description`, `id`,(SELECT notes FROM reimbursement_movement WHERE action='Returned' AND reimbursement_id=vw_reimbursements.id ORDER BY id DESC LIMIT 1) as 'reason'
+   
+$complete_query="SELECT SQL_CALC_FOUND_ROWS `transaction_date`,`file_date`, `user`, `department`, `payee`, `amount`, `or_number`,`goods_services`, `description`, `id`,(SELECT DATE_FORMAT(action_time,'%m/%d/%y') FROM reimbursement_movement WHERE action='Approved' AND reimbursement_id=vw_reimbursements.id ORDER BY id DESC LIMIT 1) as 'action_date'
              FROM `vw_reimbursements` {$where} {$order} {$limit}";
             // echo $complete_query;
              //var_dump($bindings);
