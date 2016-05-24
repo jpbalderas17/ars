@@ -103,6 +103,7 @@ $columns = array(
         return htmlspecialchars($d);
     }),
     // array( 'db' => 'notes','dt' => ++$index ),
+    /*
     array(
         'db'        => 'id',
         'dt'        => ++$index,
@@ -116,6 +117,7 @@ $columns = array(
             return $action_buttons;
         }
     )
+    */
     // ,
     // array( 'db' => 'asset_status','dt' => ++$index ),
     // array( 'db' => 'last_name','dt' => ++$index ),
@@ -266,7 +268,7 @@ $where.= !empty($where) ? " AND ".$whereAll:"WHERE ".$whereAll;
 
 $bindings=jp_bind($bindings);
    
-$complete_query="SELECT SQL_CALC_FOUND_ROWS `transaction_date`,`file_date`, `user`, `department`, `payee`, `amount`, `or_number`,`goods_services`, `description`, `id`,(SELECT notes FROM reimbursement_movement WHERE action='Returned' AND reimbursement_id=vw_reimbursements.id ORDER BY id DESC LIMIT 1) as 'reason'
+$complete_query="SELECT SQL_CALC_FOUND_ROWS `transaction_date`,`file_date`, `user`, `department`, `payee`, `amount`, `or_number`,`goods_services`, `description`, `id`,(SELECT notes FROM reimbursement_movement WHERE action='Rejected' AND reimbursement_id=vw_reimbursements.id ORDER BY id DESC LIMIT 1) as 'reason'
              FROM `vw_reimbursements` {$where} {$order} {$limit}";
             // echo $complete_query;
              //var_dump($bindings);

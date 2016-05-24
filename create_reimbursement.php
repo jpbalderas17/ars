@@ -80,7 +80,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
                         <form class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data">
                                 <input type='hidden' name='id' id='id' value='<?php echo !empty($getReimbursement)?$getReimbursement["id"]:""?>'>
-                                <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; var_dump(count($getAttachments)); die();?>'>
+                                <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; count($getAttachments); ?>'>
                                 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Name of Payee*</label>
