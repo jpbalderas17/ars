@@ -20,7 +20,8 @@
   else{
     $date_end="";
   }
-   $getDrafts=$con->myQuery("SELECT 
+    
+    $getDrafts=$con->myQuery("SELECT 
 reimbursements.transaction_date, 
 CONCAT(users.last_name ,', ', users.first_name ,' ', users.middle_name) as requestor, 
 departments.name as department, 
@@ -36,11 +37,10 @@ reimbursements.id
 from reimbursements
 inner JOIN users on reimbursements.user_id=users.id
 inner join departments on users.department_id=departments.id
-where reimbursements.status='For Audit'
-OR reimbursements.status='For Approval'
+where reimbursements.status='Draft'
 AND reimbursements.is_deleted=0
 ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
-	makeHead("For Audit/Approval Reimbursements");
+	makeHead("View History");
 ?>
 <?php
 	 require_once("template/header.php");
@@ -48,46 +48,27 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class='content-wrapper'>
     <div class='content-header'>
-        <h1 class='text-center page-header text-brand'>For Audit/Approval Reimbursements</h1>
+        <h1 class='text-center page-header text-brand'>View History</h1>
     </div>
     <section class='content'>
         <div class="row">
                 <div class='col-sm-12'>
+                      <h4>Reimbursement Details</h4>
+                </div>
+                <div class='col-sm-12'>
                       <form method='get' class='form-horizontal'>
                       <div class='form-group'>
-                          <label class='col-md-3 text-right' >Start Date (Transaction Date)</label>
+                              
+                          <label class='col-md-3 text-right' >Start Date (Action Date)</label>
                           <div class='col-md-3'>
                             <input type='date' name='date_start' class='form-control' id='date_start' value='<?php echo !empty($_GET['date_start'])?htmlspecialchars($_GET['date_start']):''?>'>
                           </div>
-                          <label class='col-md-3 text-right' >End Date (Transaction Date)</label>
+                          <label class='col-md-3 text-right' >End Date (Action Date)</label>
                           <div class='col-md-3'>
                             <input type='date' name='date_end' class='form-control' id='date_end' value='<?php echo !empty($_GET['date_end'])?htmlspecialchars($_GET['date_end']):''?>'>
                           </div>
-
-                      </div>
-
-                      <div class='form-group'>
-                          <label class='col-md-3 text-right' >Start Date (File Date)</label>
-                          <div class='col-md-3'>
-                            <input type='date' name='date_start_file' class='form-control' id='date_start_file' value='<?php echo !empty($_GET['date_start'])?htmlspecialchars($_GET['date_start']):''?>'>
-                          </div>
-                          <label class='col-md-3 text-right' >End Date (File Date)</label>
-                          <div class='col-md-3'>
-                            <input type='date' name='date_end_file' class='form-control' id='date_end_file' value='<?php echo !empty($_GET['date_end'])?htmlspecialchars($_GET['date_end']):''?>'>
-                          </div>
                       </div>
                      
-                     <div class='form-group'>
-                          <label class='col-md-3 text-right' >Status</label>
-                          <div class='col-md-3'>
-                            <select class="form-control" name='status'>
-                              <option value=''>Filter by Status</option>
-                              <option value='For Audit'>For Audit</option>
-                              <option value='For Approval'>For Approval</option>
-                            </select>
-                          </div>
-                      </div>
-                    
                       <div class='form-group'>
                           <div class='col-md-4 col-md-offset-4 text-right'>
                             <button type='button'  class='btn-flat btn btn-block btn-brand' onclick='filter_search()'>Filter</button>
@@ -111,17 +92,13 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
                             <thead>
                                 <tr>
                                     <tr>    
-                                        <th class='date-td text-center'>Transaction Date</th>
-                                        <th class='date-td text-center'>Date Filed</th>
+                                        <!-- <th class='date-td text-center'>Date Filed</th> -->
+                                        <th class='date-td text-center'>Action Date</th>
                                         <!-- <th class='text-center'>Requestor</th>
                                         <th class='text-center'>Department</th> -->
-                                        <th class='text-center'>Payee</th>
-                                        <th class='text-center'>Amount</th>
-                                        <th class='text-center'>OR Number</th>
-                                        <th class='text-center'>Description of Transaction</th>
-                                        <th class='text-center'>Description of Expense</th>
-                                        <th class='text-center'>Status</th>
+                                        <th class='text-center'>User</th>
                                         <th class='text-center'>Action</th>
+                                        <th class='text-center'>Notes</th>
                                     </tr>
                                 </tr>
                             </thead>
@@ -141,20 +118,18 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
       $(document).ready(function() {
         dttable=$('#dataTables').DataTable({
                 "scrollY":"400px",
+                "scrollX":"100%",
                 "searching": false,
                 "processing": true,
                 "serverSide": true,
                 "select":true,
                 "ajax":{
-                  "url":"ajax/reimbursements_all.php",
+                  "url":"ajax/reimbursements_drafts.php",
                   "data":function(d){
                     d.start_date=$("input[name='date_start']").val();
                     d.end_date=$("input[name='date_end']").val();
-                    d.start_date_file=$("input[name='date_start_file']").val();
-                    d.end_date_file=$("input[name='date_end_file']").val();
                     d.department_id=$("select[name='department_id']").val();
                     d.user_id=$("select[name='user_id']").val();
-                    d.status=$("select[name='status']").val();
                   }
                 },"language": {
                     "zeroRecords": "Reimbursement not found"

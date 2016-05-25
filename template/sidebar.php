@@ -15,6 +15,7 @@
             </li>
              <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
             "reimbursements_drafts.php",
+            "reimbursements_all.php",
             "reimbursements_approved.php",
             "reimbursements_cancelled.php",
             "returned_reimbursements.php",
