@@ -105,7 +105,7 @@
                                         <th class='text-center'>Description of Transaction</th>
                                         <th class='text-center'>Description of Expense</th>
                                         <th class='text-center'>Reason for Reject</th>
-                                        <th class='text-center'>Action</th>
+                                        <!-- <th class='text-center'>Action</th> -->
                                     </tr>
                                 </tr>
                             </thead>
