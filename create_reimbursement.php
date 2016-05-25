@@ -5,7 +5,7 @@
 		die();
 	}
 
-    if(!AllowUser(array(1))){
+    if(!AllowUser(array(1,2))){
         redirect("index.php");
     }
 
@@ -80,7 +80,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
                         <form class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data">
                                 <input type='hidden' name='id' id='id' value='<?php echo !empty($getReimbursement)?$getReimbursement["id"]:""?>'>
-                                <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; var_dump(count($getAttachments)); die();?>'>
+                                <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; var_dump(count($getAttachments));?>'>
                                 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Name of Payee*</label>
@@ -204,7 +204,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
                                                     <td>
                                                         <a class='btn btn-brand btn-flat' href='frm_documents.php?id=<?php echo $data;?>'><span class='fa fa-download'></span></a>
                                                                 
-                                                        <a class='btn btn-flat btn-sm btn-danger' href='delete.php?id=<?php echo $category['id']?>&t=dep' onclick='return confirm("This department will be deleted.")'><span class='fa fa-trash'></span></a>
+                                                        <a class='btn btn-flat btn-sm btn-danger' href='delete.php?id=<?php echo $data?>&t=att&reim=<?php echo !empty($getReimbursement)?$getReimbursement["id"]:""?>' onclick='return confirm("This attachment will be deleted.")'><span class='fa fa-trash'></span></a>
                                                     </td>
 
                                                     <?php

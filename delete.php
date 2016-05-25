@@ -25,11 +25,17 @@
 				$table="departments";
 				$page="departments.php";
 				break;
+			case 'att':
+				$table="files";
+				$page="create_reimbursement.php?id=".$_GET['reim'];
+				break;
 			default:
 				redirect("index.php");
 				break;
 		}
 		$con->myQuery("UPDATE {$table} SET is_deleted=1 WHERE id=?",array($_GET['id']));
+		//var_dump($_GET['id']);
+		//die();
 		Alert("Delete Successful.","success");
 		redirect($page);
 

@@ -51,29 +51,28 @@
 				
 				$i=0;
 				$post_status=$inputs['save'];
+				$noAttachments=$inputs['countFiles'];
 				unset($inputs['save']);
-				$reimbursement_id=$con->lastInsertId();
+				unset($inputs['countFiles']);
+				
 				switch($post_status)
 				{
 					case 'save':
 						$status='For Audit';
 						$filed_date='NOW()';
-						record_movement($reimbursement_id,"Submitted For Audit","");
 					break;
 
 					case 'draft':
 						$status='Draft';
 						$filed_date='null';
-						record_movement($reimbursement_id,"Created Draft","");
 					break;
 				}
 
 				$con->myQuery("INSERT into reimbursements(payee, or_number, invoice_number, goods_services, description, user_id, transaction_date, file_date, status, amount)
 					VALUES
 					(:payee, :or_number, :invoice_number, :expense_type, :description, '$userid', :transaction_date, '$filed_date', '$status', :amount)", $inputs);
-				
-				
-				
+				$reimbursement_id=$con->lastInsertId();
+
 				foreach ($files as $key => $attachment)
 				{
 					if(0 == filesize($attachment['tmp_name']))
@@ -103,18 +102,28 @@
 					
 						$file_location="Attachments/".$name;
 						$file_name=$attachment['name'];
-
+						
 						$con->myQuery("INSERT into files
 						(reimbursement_id, date_added, file_name, file_location)
 						VALUES
 						('$reimbursement_id', NOW(), '$file_name', '$file_location')", $inputs);
-					
+						
 					}
 				
 				}
+				switch($post_status)
+				{
+					case 'save':
+						record_movement($reimbursement_id,"Submitted For Audit","");
+					break;
+
+					case 'draft':
+						record_movement($reimbursement_id,"Created Draft","");
+					break;
+				}
 				//$testing = error_reporting(E_ALL);
 				Alert("Save successful","success");
-			
+				redirect("create_reimbursement.php?id=".$reimbursement_id);
 			}
 			else
 			{
@@ -126,20 +135,20 @@
 				
 				$i=0;
 				$post_status=$inputs['save'];
+				$noAttachments=$inputs['countFiles'];
 				unset($inputs['save']);
-				$reimbursement_id=$con->lastInsertId();
+				unset($inputs['countFiles']);
+				
 				switch($post_status)
 				{
 						case 'save':
 							$status='For Audit';
 							$filed_date='NOW()';
-							record_movement($reimbursement_id,"Submitted For Audit","");
 						break;
 
 						case 'draft':
 							$status='Draft';
 							$filed_date='null';
-							record_movement($reimbursement_id,"Modified Draft","");
 						break;
 				}
 
@@ -157,9 +166,8 @@
 					amount=:amount
 					WHERE
 					id=:id", $inputs);
-				//var_dump($inputs);
-					//die();
-
+				
+				$reimbursement_id=$inputs['id'];
 				
 				foreach ($files as $key => $attachment)
 				{
@@ -197,8 +205,19 @@
 				
 					}
 				}
+			switch($post_status)
+				{
+						case 'save':
+							record_movement($reimbursement_id,"Submitted For Audit","");
+						break;
+
+						case 'draft':
+							record_movement($reimbursement_id,"Modified Draft","");
+						break;
+				}
 			Alert("Save successful","success");
-			redirect("create_reimbursement.php");
+			redirect("create_reimbursement.php?id=".$inputs['id']);
+			die();
 			}
 		
 		}

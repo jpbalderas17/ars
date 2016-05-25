@@ -20,10 +20,27 @@
   else{
     $date_end="";
   }
-    // $departments=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as department FROM departments WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
-    // $users=$con->myQuery("SELECT id,CONCAT(last_name,', ',first_name,' ',middle_name) as user FROM users WHERE is_deleted=0 ORDER BY last_name")->fetchAll(PDO::FETCH_ASSOC);
-    //$expense_classifications=$con->myQuery("SELECT id,CONCAT('(',code,') ',name) as expense_classification FROM expense_classifications WHERE is_deleted=0 ORDER BY code")->fetchAll(PDO::FETCH_ASSOC);
-	makeHead("Draft Reimbursements");
+   $getDrafts=$con->myQuery("SELECT 
+reimbursements.transaction_date, 
+CONCAT(users.last_name ,', ', users.first_name ,' ', users.middle_name) as requestor, 
+departments.name as department, 
+reimbursements.payee, 
+reimbursements.amount,
+(CASE reimbursements.goods_services
+when 1 then 'Services'
+when 2 then 'Goods'
+when 3 then 'Goods/Services'
+END) as goods_services, 
+reimbursements.description,
+reimbursements.id
+from reimbursements
+inner JOIN users on reimbursements.user_id=users.id
+inner join departments on users.department_id=departments.id
+where reimbursements.status='For Audit'
+OR reimbursements.status='For Approval'
+AND reimbursements.is_deleted=0
+ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+	makeHead("For Audit/Approval Reimbursements");
 ?>
 <?php
 	 require_once("template/header.php");
@@ -31,7 +48,7 @@
 ?>
 <div class='content-wrapper'>
     <div class='content-header'>
-        <h1 class='text-center page-header text-brand'>Draft Reimbursements</h1>
+        <h1 class='text-center page-header text-brand'>For Audit/Approval Reimbursements</h1>
     </div>
     <section class='content'>
         <div class="row">
