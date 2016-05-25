@@ -5,31 +5,30 @@
 		die();
 	}
 
-    if(!AllowUser(array(1))){
+    if(!AllowUser(array(1,2))){
         redirect("index.php");
     }
 
-	$organization="";
-  //if(!empty($_GET['id'])){
-        //$organization=$con->myQuery("SELECT id,org_name,reg_name,trade_name,tin_num,tel_num,phone_num,email,address,industry,rating,org_type,annual_revenue,assigned_to,description,contact_id FROM organizations WHERE id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
-
-        //if(empty($organization)){
-            //Alert("Invalid asset selected.");
-            //Modal("Invalid Organization Selected");
-            //redirect("organizations.php");
-            //die();
-        //}
-        //var_dump($organization);
-        //die;
-    //}
+	$reimbursement="";
     
 if(!empty($_GET['id'])){
-        $organization=$con->myQuery("SELECT id,user_type_id,first_name,middle_name,last_name,username,password,email,contact_no, security_question, security_answer from users WHERE id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
-        if(empty($organization)){
-            //Alert("Invalid consumables selected.");
-            Modal("Invalid user selected");
-            redirect("users.php");
-            die();
+        $reimbursement=$con->myQuery("SELECT * FROM vw_reimbursements WHERE id=? AND status='For Audit'",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
+        if(empty($reimbursement)){
+            Modal("Invalid reimbursement.");
+            redirect("reimbursements_audit.php");
+            die;
+        }
+        else{
+            $getAttachments=$con->myQuery("SELECT
+            file_name,
+            DATE_FORMAT(date_added, '%m/%d/%Y') as date_added,
+            file_location,
+            id
+            from files
+            where is_deleted=0
+            and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
+
+            
         }
     }
     //$org_industries=$con->myQuery("SELECT id,name FROM org_industry")->fetchAll(PDO::FETCH_ASSOC);
@@ -82,78 +81,142 @@ if(!empty($_GET['id'])){
                 <div class="box-body">
                   <div class="row">
                 	<div class='col-sm-12 col-md-12'>
-                        <form class='form-horizontal' method='POST' action='create_users.php'>
-                                <input type='hidden' name='id' value='<?php echo !empty($organization)?$organization['id']:""?>'>
+                        <form class='form-horizontal' method='POST' action='for_approval.php'>
+                                <input type='hidden' name='id' value='<?php echo !empty($reimbursement)?$reimbursement['id']:""?>'>
                                 
                                 <div class='form-group'>
-                                    <label class='col-sm-12 col-md-3 control-label'> Name of Payee</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["payee_name"]:"" ?></label>
+                                    <label class='col-sm-12 col-md-2 control-label'> Name of Payee</label>
+                                    <div class='col-sm-12 col-md-4'>
+                                        <?php echo !empty($reimbursement)?$reimbursement["payee"]:"" ?>
                                     </div>
-                                    <label class='col-sm-12 col-md-3 control-label'> Description of Transaction*</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["description"]:"" ?></label>
-                                    </div>
-                                </div>
-
-                                <div class='form-group'>
-                                    <label class='col-sm-12 col-md-3 control-label'> Amount</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["amount"]:"" ?></label>
-                                    </div>
-                                    <label class='col-sm-12 col-md-3 control-label'> Description of Expense*</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["expense_type"]:"" ?></label>
-                                    </div>
-                                </div>
-
-                                <div class='form-group'>
-                                    <label class='col-sm-12 col-md-3 control-label'> OR Number</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["or_number"]:"" ?></label>
-                                    </div>
-                                    <label class='col-sm-12 col-md-3 control-label'> Invoice Number</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["invoice_number"]:"" ?></label>
+                                    <label class='col-sm-12 col-md-2 control-label'> Description of Transaction</label>
+                                    <div class='col-sm-12 col-md-4'>
+                                        <?php 
+                                            if(!empty($reimbursement['goods_services'])){
+                                                switch ($reimbursement['goods_services']) {
+                                                    case '1':
+                                                        echo "Services";
+                                                        break;
+                                                    case '2':
+                                                        echo "Goods";
+                                                        break;
+                                                    case '3':
+                                                        echo "Goods and Services";
+                                                        break;
+                                                }
+                                            }
+                                        ?>
                                     </div>
                                 </div>
 
                                 <div class='form-group'>
-                                    <label class='col-sm-12 col-md-3 control-label'> Cost Center</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["cost_center"]:"" ?></label>
+                                    <label class='col-sm-12 col-md-2 control-label'> Amount</label>
+                                    <div class='col-sm-12 col-md-4'>
+                                        <?php echo !empty($reimbursement)?number_format($reimbursement["amount"],2):"" ?>
                                     </div>
-                                    <label class='col-sm-12 col-md-3 control-label'> Attachment</label>
-                                    <div class='col-sm-12 col-md-3'>
-                                        <label class='col-sm-12 col-md-2 control-label'>
-                                        <?php echo !empty($organization)?$organization["attachment"]:"" ?></label>
+                                    <label class='col-sm-12 col-md-2 control-label'> Description of Expense</label>
+                                    <div class='col-sm-12 col-md-4'>
+                                        
+                                        <?php echo !empty($reimbursement)?$reimbursement["description"]:"" ?>
                                     </div>
                                 </div>
 
-
-                                
+                                <div class='form-group'>
+                                    <label class='col-sm-12 col-md-2 control-label'> OR Number</label>
+                                    <div class='col-sm-12 col-md-4'>
+                                        
+                                        <?php echo !empty($reimbursement)?$reimbursement["or_number"]:"" ?>
+                                    </div>
+                                    <label class='col-sm-12 col-md-2 control-label'> Cost Center</label>
+                                    <div class='col-sm-12 col-md-4'>
+                                        <?php echo !empty($reimbursement)?$reimbursement["department"]:"" ?>
+                                    </div>
+                                </div>
+                                <?php
+                                    if(!empty($reimbursement['goods_services']) && $reimbursement['goods_services']==2):
+                                ?>
+                                <div class='form-group'>
+                                <label class='col-sm-12 col-md-2 control-label'> Invoice Number</label>
+                                    <div class='col-sm-12 col-md-4'>
+                                        <?php echo !empty($reimbursement)?$reimbursement["invoice_number"]:"" ?>
+                                    </div>
                                     
+                                </div>
+                                <?php
+                                    endif;
+                                ?>
+                                <div class='form-group'>
+                                    <div class='form-group' id='tblAttachments' >
+                                <div class='col-sm-12 col-md-12 text-center'>
+                             <h4 class='col-sm-12 col-md-12 '>Attachments</h4>  
+                                    <div class='dataTable_wrapper '>
+                                        <table class='table table-bordered table-condensed table-hover ' id='dataTables'>
+                                            <thead>
+                                                <tr>
+                                                    <tr>    
+                                                        <th class='date-td text-center'>File Name</th>
+                                                        <th class='date-td text-center'>Date Uploaded</th>
+                                                        <th class='text-center'>Action</th>
+                                                    </tr>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                    <?php
+                                                        if(!empty($getAttachments)):   
+                                                        foreach ($getAttachments as $value): 
+                                                    ?>
+                                                <tr>
+                                                    <?php
+                                                            
+                                                                foreach($value as $key=> $data):
+                                                                if($key=='file_location'):
+                                                                elseif($key=='id'):
+                                                    ?>
+                                                
+                                                    <td>
+                                                        <a class='btn btn-brand btn-flat' href='frm_documents.php?id=<?php echo $data;?>'><span class='fa fa-download'></span></a>
+                                                    </td>
 
+                                                    <?php
+                                                            else:
+                                                    ?>
+
+                                                    <td>
+                                                                <?php
+                                                                    echo htmlspecialchars($data);
+                                                                ?>
+                                                    </td>
+                                                
+                                                    <?php
+                                                            endif;
+                                                            endforeach;
+                                                            
+                                                    ?>
+                                                </tr>
+                                                    <?php
+                                                            endforeach;
+                                                            endif;
+                                                    ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                                </div>
                                     <div class="box box-primary">
                                     <div class="box-body">
                                     <div class="row">
                                     <div class='form-group'>
                                     <div class='col-sm-12 col-md-12'>
-                                    <label class='col-sm-12 col-md-3 control-label'> Reimbursement Type*</label>
-                                    <div class='col-sm-12 col-md-3'>
+                                    <label class='col-sm-12 col-md-2 control-label'> Reimbursement Type</label>
+                                    <div class='col-sm-12 col-md-4'>
                                         <!--<select class='form-control' required name='user_type_id' placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?>>
                                             <?php
                                             echo makeOptions($user_type);
                                             ?>
                                         </select>-->
-                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
+                                        <select class='form-control' name='expense_type_id' id='expense_type_id' data-placeholder="Select Reimbursement Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
                                                 <!--<option value="Services">Services</option>
                                                 <option value="Goods">Goods</option>
                                                 <option value="Goods/Services">Goods/Services</option>-->
@@ -162,14 +225,14 @@ if(!empty($_GET['id'])){
                                                     ?>
                                                 </select>
                                     </div>
-                                    <label class='col-sm-12 col-md-3 control-label'> Tax Type*</label>
-                                    <div class='col-sm-12 col-md-3'>
+                                    <label class='col-sm-12 col-md-2 control-label'> Tax Type</label>
+                                    <div class='col-sm-12 col-md-4'>
                                         <!--<select class='form-control' required name='user_type_id' placeholder="Select User Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?>>
                                             <?php
                                             echo makeOptions($user_type);
                                             ?>
                                         </select>-->
-                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select Tax Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
+                                        <select class='form-control' name='tax_type_id' id='tax_type_id' data-placeholder="Select Tax Type" <?php echo!(empty($organization))?"data-selected='".$organization['user_type_id']."'":NULL ?> style='width:100%' required>
                                                 <!--<option value="Services">Services</option>
                                                 <option value="Goods">Goods</option>
                                                 <option value="Goods/Services">Goods/Services</option>-->
@@ -183,15 +246,15 @@ if(!empty($_GET['id'])){
                                     </div>
                                     </div>
                                     </div>
-                                
 
                                 <div class='form-group'>
-                                    <div class='col-sm-12 col-md-9 col-md-offset-3 '>
+                                    <div class='col-sm-12 col-md-12 text-center '>
                                         <button type='submit' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Save</button>
-                                        <a href='users.php' class='btn btn-default btn-flat'>Cancel</a>
+                                        <a href='reimbursements_audit.php' class='btn btn-default btn-flat'>Cancel</a>
                                     </div>
                                     
                                 </div>                        
+                                </form>                                
                         </form>
                       </div>
                   </div><!-- /.row -->
@@ -204,7 +267,9 @@ if(!empty($_GET['id'])){
 
 <script type="text/javascript">
   $(function () {
-        $('#ResultTable').DataTable();
+        $('#dataTables').DataTable({
+            "searching":false
+        });
       });
 </script>
 
