@@ -20,26 +20,7 @@
   else{
     $date_end="";
   }
-   $getDrafts=$con->myQuery("SELECT 
-reimbursements.transaction_date, 
-CONCAT(users.last_name ,', ', users.first_name ,' ', users.middle_name) as requestor, 
-departments.name as department, 
-reimbursements.payee, 
-reimbursements.amount,
-(CASE reimbursements.goods_services
-when 1 then 'Services'
-when 2 then 'Goods'
-when 3 then 'Goods/Services'
-END) as goods_services, 
-reimbursements.description,
-reimbursements.id
-from reimbursements
-inner JOIN users on reimbursements.user_id=users.id
-inner join departments on users.department_id=departments.id
-where reimbursements.status='For Audit'
-OR reimbursements.status='For Approval'
-AND reimbursements.is_deleted=0
-ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+
 	makeHead("For Audit/Approval Reimbursements");
 ?>
 <?php
@@ -105,7 +86,9 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
                     <?php
                         Alert();
                     ?>
-
+                    <div class='col-sm-12 text-right'>
+                      <a href='create_reimbursement.php' class='btn btn-flat btn-brand'>Create Reimbursement</a>
+                    </div>
                     <div class='dataTable_wrapper '>
                         <table class='table table-bordered table-condensed table-hover ' id='dataTables'>
                             <thead>
@@ -159,7 +142,7 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
                 },"language": {
                     "zeroRecords": "Reimbursement not found"
                 },
-                order:[[1,'desc']]
+                order:[[0,'desc']]
                 ,"columnDefs": [
                     { "orderable": false, "targets": [-1] }
                   ] 
@@ -167,10 +150,7 @@ ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
        
         $("select[name='expense_classification_id']").select2({
           allowClear:true
-        });
-
-
-        
+        });        
     });
 
     function filter_search() {

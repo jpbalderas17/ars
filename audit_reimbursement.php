@@ -11,7 +11,7 @@
 
 	$reimbursement="";
     
-if(!empty($_GET['id'])){
+    if(!empty($_GET['id'])){
         $reimbursement=$con->myQuery("SELECT * FROM vw_reimbursements WHERE id=? AND status='For Audit'",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
         if(empty($reimbursement)){
             Modal("Invalid reimbursement.");
@@ -148,7 +148,7 @@ if(!empty($_GET['id'])){
                                 <div class='form-group'>
                                     <div class='form-group' id='tblAttachments' >
                                 <div class='col-sm-12 col-md-12 text-center'>
-                             <h4 class='col-sm-12 col-md-12 '>Attachments</h4>  
+                             <h4 class='col-sm-12 col-md-12 text-brand'>Attachments</h4>  
                                     <div class='dataTable_wrapper '>
                                         <table class='table table-bordered table-condensed table-hover ' id='dataTables'>
                                             <thead>

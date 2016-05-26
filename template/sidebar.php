@@ -75,9 +75,6 @@
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
                     <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Audit</span></a>
                 </li>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset_maintenance.php"?"active":"";?>">
-                    <a href="report_asset_maintenance.php"><i class="fa fa-circle-o"></i><span>History</span></a>
-                </li>
               </ul>
             </li>
 
@@ -85,8 +82,8 @@
             "report_asset.php",
             "report_asset_activity.php",
             "report_asset_maintenance.php",
-            "consumables_report.php",
-            "consumable_activity_report.php"
+            "report_reimbursements.php",
+            "report_reimbursements_history.php"
             )))?"active":"";?>'>
               <a href="#">
                 <i class="fa fa-file-text"></i>
@@ -94,11 +91,11 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class='treeview-menu'>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset.php"?"active":"";?>">
-                    <a href="report_asset.php"><i class="fa fa-circle-o"></i><span>Reimbursements</span></a>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_reimbursements.php"?"active":"";?>">
+                    <a href="report_reimbursements.php"><i class="fa fa-circle-o"></i><span>Reimbursements</span></a>
                 </li>
-                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_asset_activity.php"?"active":"";?>">
-                    <a href="report_asset_activity.php"><i class="fa fa-circle-o"></i><span>Reimbursement History</span></a>
+                <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="report_reimbursements_history.php"?"active":"";?>">
+                    <a href="report_reimbursements_history.php"><i class="fa fa-circle-o"></i><span>Reimbursement History</span></a>
                 </li>
               </ul>
             </li>

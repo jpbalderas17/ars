@@ -103,7 +103,7 @@ $columns = array(
         return htmlspecialchars($d);
     }),
     // array( 'db' => 'notes','dt' => ++$index ),
-    /*
+    
     array(
         'db'        => 'id',
         'dt'        => ++$index,
@@ -114,10 +114,11 @@ $columns = array(
                     $action_buttons.="<form method='post' action='delete_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to cancel this request?\")' style='display:inline'>";
                     $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='rejected_reimbursements.php'>";
                     $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Cancel Request'><span class='fa fa-close'></span></button></form>&nbsp;";
+                    $action_buttons="<a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_details.php?id={$d}'><span class='fa fa-search'></span></a> ";
             return $action_buttons;
         }
     )
-    */
+    
     // ,
     // array( 'db' => 'asset_status','dt' => ++$index ),
     // array( 'db' => 'last_name','dt' => ++$index ),

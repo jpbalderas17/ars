@@ -161,7 +161,7 @@
                 },"language": {
                     "zeroRecords": "Reimbursement not found"
                 },
-                order:[[1,'desc']]
+                order:[[0,'desc']]
                 ,"columnDefs": [
                     { "orderable": false, "targets": [-1] }
                   ] 

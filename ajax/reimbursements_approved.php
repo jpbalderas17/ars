@@ -13,51 +13,11 @@ if(!AllowUser(array(1,2))){
  
 // Table's primary key
 $primaryKey = 'id';
- // SELECT 
- // r.id,
- // r.payee,
- // r.invoice_number,
- // r.goods_services,
- // r.description,
- // CONCAT(u.last_name,', ',u.first_name,' ',u.middle_name) as user,
- // d.name as department,
- // tt.name as tax_type,
- // ec.name  as expence_classification,
- // r.transaction_date,
- // r.file_date,
- // r.status,
- // r.is_deleted,
- // r.expense_capital,
- // r.amount,
- // r.status,
- // u.department_id,
- // r.user_id,
- // r.expense_classification_id
- // FROM
- // reimbursements r
- // JOIN 
- //    users u ON r.user_id=u.id
- // LEFT JOIN
- //    tax_types tt ON r.tax_type_id=tt.id
- // LEFT JOIN
- //    expense_classifications ec ON r.expense_classification_id=ec.id
- // LEFT JOIN departments d ON u.department_id=d.id
-
-
-// asset_tag,serial_number,asset_name,model,asset_status,asset_status_label,location,category,eol,notes,order_number,check_out_date,expected_check_in_date,id,CONCAT(last_name,', ',first_name,' ',middle_name)as current_holder
+ 
 $index=-1;
 
 $columns = array(
-    // array(
-    //     'db'        => 'file_date',
-    //     'dt'        => ++$index,
-    //     'formatter' => function( $d, $row ) {
-    //         // return "<button class='btn btn-sm btn-flat btn-success'  onclick='get_barcode({$row['id']})' title='View Barcode'><span class='fa fa-barcode'></span></button>";
-    //         // return "<a href='barcode/download.php?id={$row['id']}' class='btn btn-sm btn-flat btn-success' title='Download Barcode'><span class='fa fa-barcode'></span></a>";
-    //         $date=date_create($d);
-    //         return htmlspecialchars($date->format("m/d/Y"));
-    //     }
-    // ),
+ 
     array( 'db' => 'transaction_date','dt' => ++$index ,'formatter'=>function($d,$row){
         $date=date_create($d);
         return htmlspecialchars($date->format("m/d/Y"));
@@ -103,27 +63,19 @@ $columns = array(
             return htmlspecialchars($d);
         
     }),
-    /*
-    array( 'db' => 'reason','dt' => ++$index,'formatter'=>function($d,$row){
-        return htmlspecialchars($d);
-    }),
-    */
-    // array( 'db' => 'notes','dt' => ++$index ),
-    /*
     array(
         'db'        => 'id',
         'dt'        => ++$index,
         'formatter' => function( $d, $row ) {
 
             $action_buttons="";
-                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}'><span class='fa fa-pencil'></span></a> ";
+                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}'><span class='fa fa-pencil'></span></a> <a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_details.php?id={$d}'><span class='fa fa-search'></span></a> ";
                     $action_buttons.="<form method='post' action='delete_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to cancel this request?\")' style='display:inline'>";
                     $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='rejected_reimbursements.php'>";
                     $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Cancel Request'><span class='fa fa-close'></span></button></form>&nbsp;";
             return $action_buttons;
         }
     )
-    */
     // ,
     // array( 'db' => 'asset_status','dt' => ++$index ),
     // array( 'db' => 'last_name','dt' => ++$index ),

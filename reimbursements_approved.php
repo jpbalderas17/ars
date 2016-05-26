@@ -106,7 +106,7 @@
                                         <th class='text-center'>Description of Expense</th>
                                         <th class='text-center'>Approve Date</th>
                                         <!-- <th class='text-center'>Reason for Reject</th> -->
-                                        <!-- <th class='text-center'>Action</th> -->
+                                        <th class='text-center'>Action</th>
                                     </tr>
                                 </tr>
                             </thead>
@@ -144,7 +144,7 @@
                 },"language": {
                     "zeroRecords": "Reimbursement not found"
                 },
-                order:[[1,'desc']]
+                order:[[0,'desc']]
                 ,"columnDefs": [
                     { "orderable": false, "targets": [-1] }
                   ] 

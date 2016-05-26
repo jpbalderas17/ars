@@ -14,69 +14,24 @@ if(!AllowUser(array(1,2))){
 // Table's primary key
 $primaryKey = 'id';
 
-
 $index=-1;
 
 $columns = array(
-
-    array( 'db' => 'transaction_date','dt' => ++$index ,'formatter'=>function($d,$row){
+ 
+    array( 'db' => 'action_time','dt' => ++$index ,'formatter'=>function($d,$row){
         $date=date_create($d);
-        return htmlspecialchars($date->format("m/d/Y"));
+        return htmlspecialchars($date->format("m/d/Y h:i A"));
     }),
-
-    // array( 'db' => 'user','dt' => ++$index ),
-    // array( 'db' => 'department','dt' => ++$index ),
-    array( 'db' => 'payee','dt' => ++$index,'formatter'=> function ($d,$row){
+    array( 'db' => 'user','dt' => ++$index,'formatter'=> function ($d,$row){
             return htmlspecialchars($d);
-        
     }),
-    array( 'db' => 'amount','dt' => ++$index,'formatter'=>function($d,$row){
-        return number_format($d,2);
-    } ),
-    array( 'db' => 'or_number','dt' => ++$index ,'formatter'=>function($d,$row){
+    array( 'db' => 'action','dt' => ++$index ,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
-    array( 'db' => 'goods_services','dt' => ++$index,'formatter'=>function($d,$row){
-        switch ($d) {
-            case '1':
-                return "Services";
-                break;
-            case '2':
-                return "Goods";
-                break;
-            case '3':
-                return "Goods/Services";
-                break;
-            default:
-                # code...
-                break;
-        }
-    }),
-    
-    array( 'db' => 'description','dt' => ++$index,'formatter'=>function($d,$row){
+    array( 'db' => 'notes','dt' => ++$index,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
-    // array( 'db' => 'notes','dt' => ++$index ),
-    array(
-        'db'        => 'id',
-        'dt'        => ++$index,
-        'formatter' => function( $d, $row ) {
-
-            $action_buttons="";
-                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}'><span class='fa fa-pencil'></span></a> ";
-                    $action_buttons.="<form method='post' action='delete_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to delete this draft?\")' style='display:inline'>";
-                    $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='reimbursements_drafts.php'>";
-                    $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Delete Draft'><span class='fa fa-trash'></span></button></form>&nbsp;";
-                    $action_buttons="<a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_details.php?id={$d}'><span class='fa fa-search'></span></a>";
-            return $action_buttons;
-        }
-    )
-    
-    // ,
-    // array( 'db' => 'asset_status','dt' => ++$index ),
-    // array( 'db' => 'last_name','dt' => ++$index ),
-    // array( 'db' => 'first_name','dt' => ++$index ),
-    // array( 'db' => 'middle_name','dt' => ++$index ),
+    array( 'db' => 'reimbursement_id','dt' => ++$index ),
 );
  
 //var_dump($columns);
@@ -146,12 +101,13 @@ else{
 
 $date_filter="";
 if(!empty($date_start)){
-    $date_filter.=" AND transaction_date >= '".date_format($date_start,'Y-m-d')."'";
+    $date_filter.=" AND action_time >= '".date_format($date_start,'Y-m-d')."'";
 }
 
 if(!empty($date_end)){
-    $date_filter.=" AND transaction_date <= '".date_format($date_end,'Y-m-d')."'";
+    $date_filter.=" AND action_time <= '".date_format($date_end,'Y-m-d')."'";
 }
+
 $filter_sql.=$date_filter;
 // var_dump($bindings);
 // if($_GET['status']=="All"){   
@@ -175,9 +131,14 @@ $filter_sql.=$date_filter;
 //     }
 // }
 //             $bindings[]=array('key'=>'status','val'=>$_GET['status'],'type'=>0);
-$whereAll=" status='Cancelled' AND is_deleted=0";
-$whereAll.=" AND user_id=:user_id";
-$bindings[]=array('key'=>'user_id','val'=>$_SESSION[WEBAPP]['user']['id'],'type'=>0);
+$whereAll="";
+if(!empty($_GET['r_id'])){
+
+$whereAll.=" reimbursement_id=:reimbursement_id";
+$bindings[]=array('key'=>'reimbursement_id','val'=>$_GET['r_id'],'type'=>0);
+
+}
+
 $whereAll.=$filter_sql;
 function jp_bind($bindings)
 {
@@ -192,14 +153,16 @@ function jp_bind($bindings)
 
         return $return_array;
 }
-$where.= !empty($where) ? " AND ".$whereAll:"WHERE ".$whereAll;
+if(!empty($whereAll)){
+    $where.= !empty($where) ? " AND ".$whereAll:"WHERE ".$whereAll;
+}
 
 
 
 $bindings=jp_bind($bindings);
 $complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($columns, 'db'))."`
-             FROM `vw_reimbursements` {$where} {$order} {$limit}";
-            // echo $complete_query;
+             FROM `vw_reimbursement_movement` {$where} {$order} {$limit}";
+            echo $complete_query;
              //var_dump($bindings);
 // echo $where;
 // echo $complete_query;
@@ -209,7 +172,7 @@ $complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($colum
 $data=$con->myQuery($complete_query,$bindings)->fetchAll();
 $recordsFiltered=$con->myQuery("SELECT FOUND_ROWS();")->fetchColumn();
 
-$recordsTotal=$con->myQuery("SELECT COUNT(id) FROM `vw_reimbursements` {$where};",$bindings)->fetchColumn();
+$recordsTotal=$con->myQuery("SELECT COUNT(id) FROM `vw_reimbursement_movement` {$where};",$bindings)->fetchColumn();
 
 
 $json['draw']=isset ( $request['draw'] ) ?intval( $request['draw'] ) :0;
@@ -218,11 +181,4 @@ $json['recordsFiltered']=$recordsFiltered;
 $json['data']=SSP::data_output($columns,$data);
 
 echo json_encode($json);
-
-// $resTotalLength = SSP::sql_exec( $db, $bindings,
-//             "SELECT COUNT(`{$primaryKey}`)
-//              FROM   `$table` ".
-//             $whereAllSql
-//         );
-
 die;

@@ -134,7 +134,7 @@
                                         <th class='text-center' style="min-width:150px">Description of Expense</th>
                                         <th class='text-center'>Expense Classification</th>
                                         <th class='text-center'>Tax Type</th>
-                                        <th class='text-center' style="min-width:100px">Action</th>
+                                        <th class='text-center' style="min-width:130px">Action</th>
                                     </tr>
                                 </tr>
                             </thead>
@@ -178,7 +178,7 @@
                 },"language": {
                     "zeroRecords": "Reimbursement not found"
                 },
-                order:[[1,'desc']]
+                order:[[0,'desc']]
                 ,"columnDefs": [
                     { "orderable": false, "targets": [-1] }
                   ] 

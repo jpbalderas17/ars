@@ -4,13 +4,12 @@ if(!isLoggedIn()){
         toLogin();
         die();
     }
-if(!AllowUser(array(1,2,3))){
+if(!AllowUser(array(1,2))){
     redirect("index.php");
 }
 
 
 // var_dump($_GET);
-
  
 // Table's primary key
 $primaryKey = 'id';
@@ -45,7 +44,7 @@ $primaryKey = 'id';
  // LEFT JOIN departments d ON u.department_id=d.id
 
 
-
+// asset_tag,serial_number,asset_name,model,asset_status,asset_status_label,location,category,eol,notes,order_number,check_out_date,expected_check_in_date,id,CONCAT(last_name,', ',first_name,' ',middle_name)as current_holder
 $index=-1;
 
 $columns = array(
@@ -53,13 +52,19 @@ $columns = array(
         $date=date_create($d);
         return htmlspecialchars($date->format("m/d/Y"));
     }),
-    array( 'db' => 'file_date','dt' => ++$index ,'formatter'=>function($d,$row){
-        $date=date_create($d);
-        return htmlspecialchars($date->format("m/d/Y"));
-    }),
+    array(
+        'db'        => 'file_date',
+        'dt'        => ++$index,
+        'formatter' => function( $d, $row ) {
+            // return "<button class='btn btn-sm btn-flat btn-success'  onclick='get_barcode({$row['id']})' title='View Barcode'><span class='fa fa-barcode'></span></button>";
+            // return "<a href='barcode/download.php?id={$row['id']}' class='btn btn-sm btn-flat btn-success' title='Download Barcode'><span class='fa fa-barcode'></span></a>";
+            $date=date_create($d);
+            return htmlspecialchars($date->format("m/d/Y"));
+        }
+    ),
     //array( 'db' => 'serial_number','dt' => ++$index ),
-    // array( 'db' => 'user','dt' => ++$index ),
-    // array( 'db' => 'department','dt' => ++$index ),
+    array( 'db' => 'user','dt' => ++$index ),
+    array( 'db' => 'department','dt' => ++$index ),
     array( 'db' => 'payee','dt' => ++$index,'formatter'=> function ($d,$row){
             return htmlspecialchars($d);
         
@@ -90,25 +95,28 @@ $columns = array(
     array( 'db' => 'description','dt' => ++$index,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
+    array( 'db' => 'expense_classification','dt' => ++$index,'formatter'=>function($d,$row){
+        return htmlspecialchars($d);
+    }),
+    array( 'db' => 'tax_type','dt' => ++$index,'formatter'=>function($d,$row){
+        return htmlspecialchars($d);
+    }),
     array( 'db' => 'status','dt' => ++$index,'formatter'=>function($d,$row){
         return htmlspecialchars($d);
     }),
-    // array( 'db' => 'notes','dt' => ++$index ),
     array(
         'db'        => 'id',
         'dt'        => ++$index,
         'formatter' => function( $d, $row ) {
 
             $action_buttons="";
-                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_details.php?id={$d}'><span class='fa fa-search'></span></a>";
+                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_history.php?id={$d}'><span class='fa fa-search'></span></a> ";
             return $action_buttons;
         }
     )
-    // ,
-    // array( 'db' => 'asset_status','dt' => ++$index ),
-    // array( 'db' => 'last_name','dt' => ++$index ),
-    // array( 'db' => 'first_name','dt' => ++$index ),
-    // array( 'db' => 'middle_name','dt' => ++$index ),
+    ,
+    array( 'db' => 'expense_classification_id','dt' => ++$index ),
+    array( 'db' => 'tax_type_id','dt' => ++$index )
 );
  
 //var_dump($columns);
@@ -135,32 +143,50 @@ $filter_sql="";
 $dep_sql="";
 $user_sql="";
 $get_val="";
-// if(!empty($_GET['department_id'])){
-//     $dep_sql="u.department_id=:department_id";
-//     $inputs['department_id']=$_GET['department_id'];
-//     $filter_sql.=$dep_sql;
-//     $bindings[]=array('key'=>'department_id','val'=>$_GET['department_id'],'type'=>0);
-// }
+if(!empty($_GET['department_id'])){
+    $dep_sql="u.department_id=:department_id";
+    $inputs['department_id']=$_GET['department_id'];
+    $filter_sql.=$dep_sql;
+    $bindings[]=array('key'=>'department_id','val'=>$_GET['department_id'],'type'=>0);
+}
 
-// if(!empty($_GET['user_id'])){
-//     $user_sql="u.id=:user_id";
-//     $inputs['user_id']=$_GET['user_id'];
-//     if(!empty($filter_sql)){
-//         $filter_sql.=" AND ";
-//     }
-//     $bindings[]=array('key'=>'user_id','val'=>$_GET['user_id'],'type'=>0);
-//     $filter_sql.=$user_sql;
-// }
+if(!empty($_GET['user_id'])){
+    $user_sql="u.id=:user_id";
+    $inputs['user_id']=$_GET['user_id'];
+    if(!empty($filter_sql)){
+        $filter_sql.=" AND ";
+    }
+    $bindings[]=array('key'=>'user_id','val'=>$_GET['user_id'],'type'=>0);
+    $filter_sql.=$user_sql;
+}
 
 
+if(!empty($dep_sql) || !empty($user_sql)){
+    $filter_sql=" AND user_id IN (SELECT id FROM users u WHERE {$filter_sql})";
+}
+else{
+    $filter_sql="";
+}
 
-// if(!empty($dep_sql) || !empty($user_sql)){
-//     $filter_sql=" AND user_id IN (SELECT id FROM users u WHERE {$filter_sql})";
-// }
-// else{
-//     $filter_sql="";
-// }
+if(!empty($_GET['expense_classification_id'])){
+    $user_sql="expense_classification_id=:expense_classification_id";
+    $inputs['expense_classification_id']=$_GET['expense_classification_id'];
+    
+        $filter_sql.=" AND ";
+    
+    $bindings[]=array('key'=>'expense_classification_id','val'=>$_GET['expense_classification_id'],'type'=>0);
+    $filter_sql.=$user_sql;
+}
 
+if(!empty($_GET['tax_type_id'])){
+    $user_sql="tax_type_id=:tax_type_id";
+    $inputs['tax_type_id']=$_GET['tax_type_id'];
+    
+        $filter_sql.=" AND ";
+    
+    $bindings[]=array('key'=>'tax_type_id','val'=>$_GET['tax_type_id'],'type'=>0);
+    $filter_sql.=$user_sql;
+}
 
 if(!empty($_GET['start_date'])){
     $date_start=date_create($_GET['start_date']);
@@ -184,7 +210,6 @@ if(!empty($date_start)){
 if(!empty($date_end)){
     $date_filter.=" AND transaction_date <= '".date_format($date_end,'Y-m-d')."'";
 }
-
 $filter_sql.=$date_filter;
 
 if(!empty($_GET['start_date_file'])){
@@ -210,28 +235,29 @@ if(!empty($date_end_file)){
     $date_filter.=" AND file_date <= '".date_format($date_end_file,'Y-m-d')."'";
 }
 $filter_sql.=$date_filter;
+
 // var_dump($bindings);
-if(!empty($_GET['status'])){
-  switch ($_GET['status']) {
-    case 'For Audit':
-      $filter_sql.=" AND status='For Audit' ";
-      break;
-    case 'For Approval':
-      $filter_sql.=" AND status='For Approval' ";
-      break;
-    
-    default:
-      $filter_sql.=" AND (status='For Approval' OR status='For Audit') ";
-      break;
-  }
-}
-else{
-      $filter_sql.=" AND (status='For Approval' OR status='For Audit') ";
-}
+// if($_GET['status']=="All"){   
+//     $whereAll=" is_deleted=0";
+// }
+// else{
+//     if ($_GET['status']!='Deployed') {
+//         if($_GET['status']=='Deployable'){
+//             $whereAll=" is_deleted=0 AND asset_status_label = :status AND qry_assets.user_id=0";
 //             $bindings[]=array('key'=>'status','val'=>$_GET['status'],'type'=>0);
-$whereAll=" is_deleted=0";
-$whereAll.=" AND user_id=:user_id";
-$bindings[]=array('key'=>'user_id','val'=>$_SESSION[WEBAPP]['user']['id'],'type'=>0);
+//         }
+//         else{
+//             //is_deleted=0 AND asset_status_label=?
+//             $whereAll=" is_deleted=0 AND asset_status_label = :status";
+//             $bindings[]=array('key'=>'status','val'=>$_GET['status'],'type'=>0);
+//         }
+//     }
+//     else{
+//         //is_deleted=0 AND check_out_date<>'0000-00-00'
+//         $whereAll=" is_deleted=0 AND check_out_date <> '0000-00-00'";
+//     }
+// }
+$whereAll=" status<> 'Draft' AND is_deleted=0";
 $whereAll.=$filter_sql;
 function jp_bind($bindings)
 {
@@ -251,19 +277,13 @@ $where.= !empty($where) ? " AND ".$whereAll:"WHERE ".$whereAll;
 
 
 $bindings=jp_bind($bindings);
-/*
-$complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($columns, 'db'))."`,(SELECT notes FROM reimbursement_movement WHERE action_time='Returned' ORDER BY id DESC) as 'reason'
+$complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($columns, 'db'))."`
              FROM `vw_reimbursements` {$where} {$order} {$limit}";
-*/
-
-
-
-$complete_query="SELECT SQL_CALC_FOUND_ROWS `transaction_date`,`file_date`, `user`, `department`, `payee`, `amount`, `or_number`,`goods_services`, `description`, `id`,`status` FROM `vw_reimbursements` {$where} {$order} {$limit}";
             // echo $complete_query;
              //var_dump($bindings);
 // echo $where;
 // echo $complete_query;
-// // var_dump($bindings);
+// var_dump($bindings);
 // die;
 
 $data=$con->myQuery($complete_query,$bindings)->fetchAll();
@@ -278,11 +298,5 @@ $json['recordsFiltered']=$recordsFiltered;
 $json['data']=SSP::data_output($columns,$data);
 
 echo json_encode($json);
-
-// $resTotalLength = SSP::sql_exec( $db, $bindings,
-//             "SELECT COUNT(`{$primaryKey}`)
-//              FROM   `$table` ".
-//             $whereAllSql
-//         );
 
 die;

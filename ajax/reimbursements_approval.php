@@ -108,7 +108,7 @@ $columns = array(
         'formatter' => function( $d, $row ) {
 
             $action_buttons="";
-                    $action_buttons.="<button class='btn btn-sm btn-brand btn-flat'  title='Return Request' onclick='return_request(\"{$row['id']}\")'><span  class='fa fa-arrow-left'></span></button>&nbsp;";
+                    $action_buttons.="<button class='btn btn-sm btn-brand btn-flat'  title='Return Request' onclick='return_request(\"{$row['id']}\")'><span  class='fa fa-arrow-left'></span></button>&nbsp;<a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_details.php?id={$d}'><span class='fa fa-search'></span></a> ";
                     $action_buttons.="<form method='post' action='approve_reimbursement.php' onsubmit='return confirm(\"Are you sure you want to approve this request?\")' style='display:inline'>";
                     $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='reimbursements_approval.php'>";
                     $action_buttons.="<button class='btn btn-sm btn-brand btn-flat' value='leave' title='Approve Request'><span class='fa fa-check'></span></button></form>&nbsp;";
