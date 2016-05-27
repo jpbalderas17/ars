@@ -194,7 +194,7 @@ if(!empty($date_start)){
 }
 
 if(!empty($date_end)){
-    $date_filter.=" AND transaction_date <= '".date_format($date_end,'Y-m-d')."'";
+    $date_filter.=" AND transaction_date <= '".date_format($date_end,'Y-m-d')."  23:59:59'";
 }
 $filter_sql.=$date_filter;
 
@@ -218,7 +218,7 @@ if(!empty($date_start_file)){
 }
 
 if(!empty($date_end_file)){
-    $date_filter.=" AND file_date <= '".date_format($date_end_file,'Y-m-d')."'";
+    $date_filter.=" AND file_date <= '".date_format($date_end_file,'Y-m-d')."  23:59:59'";
 }
 $filter_sql.=$date_filter;
 // var_dump($bindings);

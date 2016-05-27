@@ -240,7 +240,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
 
                                         <button type='submit' name='save' value='save' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Submit</button>
 
-                                        <a href='index.php' class='btn btn-flat btn-default'>Cancel</a>
+                                        <button type='button' class='btn btn-flat btn-default' onclick="if(confirm('Are you sure you want to cancel?')){history.back();}"> Cancel</button>
                                     </div>
                                     
                                 </div>                      

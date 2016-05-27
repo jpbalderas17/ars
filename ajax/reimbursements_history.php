@@ -58,31 +58,7 @@ $filter_sql="";
 $dep_sql="";
 $user_sql="";
 $get_val="";
-// if(!empty($_GET['department_id'])){
-//     $dep_sql="u.department_id=:department_id";
-//     $inputs['department_id']=$_GET['department_id'];
-//     $filter_sql.=$dep_sql;
-//     $bindings[]=array('key'=>'department_id','val'=>$_GET['department_id'],'type'=>0);
-// }
 
-// if(!empty($_GET['user_id'])){
-//     $user_sql="u.id=:user_id";
-//     $inputs['user_id']=$_GET['user_id'];
-//     if(!empty($filter_sql)){
-//         $filter_sql.=" AND ";
-//     }
-//     $bindings[]=array('key'=>'user_id','val'=>$_GET['user_id'],'type'=>0);
-//     $filter_sql.=$user_sql;
-// }
-
-
-
-// if(!empty($dep_sql) || !empty($user_sql)){
-//     $filter_sql=" AND user_id IN (SELECT id FROM users u WHERE {$filter_sql})";
-// }
-// else{
-//     $filter_sql="";
-// }
 
 
 if(!empty($_GET['start_date'])){
@@ -105,7 +81,7 @@ if(!empty($date_start)){
 }
 
 if(!empty($date_end)){
-    $date_filter.=" AND action_time <= '".date_format($date_end,'Y-m-d')."'";
+    $date_filter.=" AND action_time <= '".date_format($date_end,'Y-m-d')."  23:59:59'";
 }
 
 $filter_sql.=$date_filter;
@@ -162,7 +138,7 @@ if(!empty($whereAll)){
 $bindings=jp_bind($bindings);
 $complete_query="SELECT SQL_CALC_FOUND_ROWS `".implode("`, `", SSP::pluck($columns, 'db'))."`
              FROM `vw_reimbursement_movement` {$where} {$order} {$limit}";
-            echo $complete_query;
+            // echo $complete_query;
              //var_dump($bindings);
 // echo $where;
 // echo $complete_query;

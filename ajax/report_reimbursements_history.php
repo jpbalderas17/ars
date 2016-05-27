@@ -56,10 +56,12 @@ $columns = array(
         'db'        => 'file_date',
         'dt'        => ++$index,
         'formatter' => function( $d, $row ) {
-            // return "<button class='btn btn-sm btn-flat btn-success'  onclick='get_barcode({$row['id']})' title='View Barcode'><span class='fa fa-barcode'></span></button>";
-            // return "<a href='barcode/download.php?id={$row['id']}' class='btn btn-sm btn-flat btn-success' title='Download Barcode'><span class='fa fa-barcode'></span></a>";
-            $date=date_create($d);
-            return htmlspecialchars($date->format("m/d/Y"));
+            if(!empty($d) && $d<>'0000-00-00'){
+
+                $date=date_create($d);
+                return htmlspecialchars($date->format("m/d/Y"));
+            }
+            return "";
         }
     ),
     //array( 'db' => 'serial_number','dt' => ++$index ),
@@ -208,7 +210,7 @@ if(!empty($date_start)){
 }
 
 if(!empty($date_end)){
-    $date_filter.=" AND transaction_date <= '".date_format($date_end,'Y-m-d')."'";
+    $date_filter.=" AND transaction_date <= '".date_format($date_end,'Y-m-d')."  23:59:59'";
 }
 $filter_sql.=$date_filter;
 
@@ -232,7 +234,7 @@ if(!empty($date_start_file)){
 }
 
 if(!empty($date_end_file)){
-    $date_filter.=" AND file_date <= '".date_format($date_end_file,'Y-m-d')."'";
+    $date_filter.=" AND file_date <= '".date_format($date_end_file,'Y-m-d')."  23:59:59'";
 }
 $filter_sql.=$date_filter;
 
