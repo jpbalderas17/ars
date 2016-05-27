@@ -152,14 +152,9 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Attachment*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                         <input type='file' multiple="" name='file[]' class="filestyle" data-classButton="" data-buttonName="btn btn-flat btn-default" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files">
+                                         <input type='file' multiple="" name='file[]' class="filestyle" data-classButton="" data-buttonName="btn btn-flat btn-default" data-input="false" data-classIcon="icon-plus" data-buttonText=" &nbsp;Select Files" >
                                     </div>
                                 </div>
-
-                                
-                        
-
-
                       </div>
                   </div><!-- /.row -->
                   <?php

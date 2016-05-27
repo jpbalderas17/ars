@@ -6,18 +6,11 @@
 		die();
 	}
     
-	// if(!AllowUser(array(1,2))){
-	// 	redirect("index.php");
-	// }
-	 //var_dump($_POST);
-		//		 die;
+	
 	if(!empty($_POST))
 	{
-		//Validate form inputs
 		$inputs=$_POST;
 		
-				// var_dump($inputs);
-				// die;
 		$errors="";
 		
 		if (empty($inputs['description']))
@@ -33,9 +26,9 @@
 			if(empty($inputs['id']))
 			{
 				redirect("create_reimbursement.php");
+				die;
 			}
 			
-			die;
 		}
 		else
 		{
@@ -124,6 +117,7 @@
 				//$testing = error_reporting(E_ALL);
 				Alert("Save successful","success");
 				redirect("create_reimbursement.php?id=".$reimbursement_id);
+				die;
 			}
 			else
 			{

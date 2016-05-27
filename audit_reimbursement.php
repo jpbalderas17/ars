@@ -38,8 +38,8 @@
     //$user=$con->myQuery("SELECT id, CONCAT(last_name,' ',first_name,' ',middle_name) as name FROM users")->fetchAll(PDO::FETCH_ASSOC);
 
     //$department=$con->myQuery("SELECT id,name FROM departments WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
-    $getExpenseClassifications=$con->myQuery("SELECT id,name FROM expense_classifications WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
-    $getTaxTypes=$con->myQuery("SELECT id,name FROM tax_types WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
+    $getExpenseClassifications=$con->myQuery("SELECT id,CONCAT('(',code,')',' ',name) as name FROM expense_classifications WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
+    $getTaxTypes=$con->myQuery("SELECT id,CONCAT('(',code,')',' ',name) as name FROM tax_types WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
 	makeHead("Audit Reimbursement");
 ?>
 <script type="application/javascript">
