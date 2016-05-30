@@ -240,13 +240,6 @@
 					if(0 == filesize($attachment['tmp_name']))
 					{
 						//DAPAT WALA NA TONG VALIDATION NA TO, PERO DAPAT MACHECHECK KUNG MAY FILES NA NAKASAMA
-						/*
-						if ($post_status=='save') {
-							Alert("Attachment is required","danger");
-							redirect("create_reimbursement.php?id=".$inputs['id']);
-							die();
-						}
-						*/
 					}
 					else
 					{	

@@ -5,40 +5,38 @@
 		die();
 	}
 
-    if(!AllowUser(array(1,2))){
+    if(!AllowUser(array(1,2,3))){
         redirect("index.php");
     }
 
 	$organization="";
     
-if(!empty($_GET['id'])){
-$getReimbursement=$con->myQuery("SELECT 
-r.payee,
-r.goods_services,
-r.description,
-r.transaction_date,
-r.amount,
-r.or_number,
-r.invoice_number,
-r.id
-from reimbursements r
-where r.is_deleted=0
-and r.id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
+    if(!empty($_GET['id']))
+    {
+        $getReimbursement=$con->myQuery("SELECT 
+                                        r.payee,
+                                        r.goods_services,
+                                        r.description,
+                                        r.transaction_date,
+                                        r.amount,
+                                        r.or_number,
+                                        r.invoice_number,
+                                        r.id
+                                        from reimbursements r
+                                        where r.is_deleted=0
+                                        and r.id=?",array($_GET['id']))->fetch(PDO::FETCH_ASSOC);
 
-$getAttachments=$con->myQuery("SELECT
-file_name,
-DATE_FORMAT(date_added, '%m/%d/%Y') as date_added,
-file_location,
-id
-from files
-where is_deleted=0
-and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
+                                        $getAttachments=$con->myQuery("SELECT
+                                        file_name,
+                                        DATE_FORMAT(date_added, '%m/%d/%Y') as date_added,
+                                        file_location,
+                                        id
+                                        from files
+                                        where is_deleted=0
+                                        and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
 
-}
-  
-    //$department=$con->myQuery("SELECT id,name FROM departments WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
-    //$location=$con->myQuery("SELECT id,name FROM locations WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
-    //$user_type=$con->myQuery("SELECT id,name FROM user_types WHERE is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 	makeHead("Reimbursement Creation");
 ?>
 <script type="application/javascript">
@@ -78,7 +76,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
 				?>
 
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
-                        <form name='frm_r' class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data" onsubmit="return val(this)">
+                        <form name='frm_r' class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data">
                                 <input type='hidden' name='id' id='id' value='<?php echo !empty($getReimbursement)?$getReimbursement["id"]:""?>'>
                                 <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; count($getAttachments); ?>'>
 
@@ -236,8 +234,16 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
 
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-6 col-md-offset-3 text-center'>
+
+                                    <?php 
+                                        if (empty($_GET['r'])) 
+                                        {
+                                    ?>
                                         <button type='submit' name='save' value='draft' class='btn btn-brand btn-flat'> <span class='fa fa-save'></span> Save as Draft</button>
 
+                                    <?php
+                                        }
+                                    ?>
                                         <button type='submit' name='save' value='save' class='btn btn-brand btn-flat'> <span class='fa fa-check'></span> Submit</button>
 
                                         <button type='button' class='btn btn-flat btn-default' onclick="if(confirm('Are you sure you want to cancel?')){history.back();}"> Cancel</button>
