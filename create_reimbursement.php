@@ -78,7 +78,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
 				?>
 
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
-                        <form class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data">
+                        <form name='frm_r' class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data" onsubmit="return val(this)">
                                 <input type='hidden' name='id' id='id' value='<?php echo !empty($getReimbursement)?$getReimbursement["id"]:""?>'>
                                 <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; count($getAttachments); ?>'>
 
@@ -86,7 +86,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Name of Payee*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type="text" class="form-control" name="payee" placeholder="Enter First Name" value="<?php echo !empty($getReimbursement)?$getReimbursement["payee"]:"" ?>" required>
+                                        <input type="text" class="form-control" name="payee" placeholder="Enter Name Of Payee" value="<?php echo !empty($getReimbursement)?$getReimbursement["payee"]:"" ?>" required>
                                     </div>
                                 </div>
                                 
@@ -94,7 +94,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
                                     <label class='col-sm-12 col-md-3 control-label'> Description of Transaction*</label>
                                     <div class='col-sm-12 col-md-9'>
                                        
-                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select User Type" <?php echo!(empty($getReimbursement))?"data-selected='".$getReimbursement['goods_services']."'":NULL ?> style='width:100%' required>
+                                        <select class='form-control' name='expense_type' id='expense_type' data-placeholder="Select Transaction" <?php echo!(empty($getReimbursement))?"data-selected='".$getReimbursement['goods_services']."'":NULL ?> style='width:100%' required>
                                                 <option value="1">Services</option>
                                                 <option value="2">Goods</option>
                                                 <option value="3">Goods/Services</option>
@@ -108,7 +108,7 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Description of Expense*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <textarea class="form-control" name="description" placeholder="Enter Middle name" required><?php echo !empty($getReimbursement)?$getReimbursement["description"]:"" ?></textarea>
+                                        <textarea class="form-control" name="description" placeholder="Enter Description Of Expense" required><?php echo !empty($getReimbursement)?$getReimbursement["description"]:"" ?></textarea>
                                     </div>
                                 </div>
 
@@ -131,21 +131,21 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Amount*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='amount' placeholder='Enter Username' value='<?php echo !empty($getReimbursement)?$getReimbursement['amount']:"" ?>' required>
+                                        <input type='text' class='form-control' name='amount' placeholder='Enter Amount' value='<?php echo !empty($getReimbursement)?$getReimbursement['amount']:"" ?>' required>
                                     </div>
                                 </div>
 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> OR Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='or_number' placeholder='Enter Username' value='<?php echo !empty($getReimbursement)?$getReimbursement['or_number']:"" ?>' required>
+                                        <input type='text' class='form-control' name='or_number' placeholder='Enter OR Number' value='<?php echo !empty($getReimbursement)?$getReimbursement['or_number']:"" ?>' required>
                                     </div>
                                 </div>
 
                                 <div class='form-group' id='invoicediv' style="display: none;">
                                     <label class='col-sm-12 col-md-3 control-label'> Invoice Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Username' value='<?php echo !empty($getReimbursement)?$getReimbursement['invoice_number']:"" ?>' >
+                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Invoice Number' value='<?php echo !empty($getReimbursement)?$getReimbursement['invoice_number']:"" ?>' >
                                     </div>
                                 </div>
 
@@ -251,6 +251,17 @@ and reimbursement_id=?",array($_GET['id']))->fetchAll(PDO::FETCH_ASSOC);
   </div>
 
 <script type="text/javascript">
+    function val (frm) 
+    {     
+        var sv = document.forms["frm_r"]["save"].value;
+        if(sv=="save")
+        {
+          alert("bawal");
+          return false;
+        }
+        return true;
+    }
+
  var dttable="";
       $(document).ready(function() {
         dttable=$('#dataTables').DataTable({
