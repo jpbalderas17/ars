@@ -27,94 +27,137 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-success">
-                        <div class="panel-heading bg-green">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-barcode fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="" style='font-size:40px'></div>
-                                    <div>Total Assets</div>
-                                </div>
-                            </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="small-box bg-brand">
+                        <div class="inner">
+                          <h3>&nbsp;</h3>
+                          <p class=''>&nbsp;</p>
                         </div>
-                        <a href="assets.php">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
+                        <div class="icon">
+                          <i class="fa fa-file-text"></i>
+                        </div>
+                        <a href="create_reimbursement.php" class="small-box-footer">
+                          Create Reimbursement Request <i class="fa fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-success">
-                        <div class="panel-heading bg-green">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-barcode fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="" style='font-size:40px'></div>
-                                    <div>Assets Available</div>
-                                </div>
-                            </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="small-box bg-brand">
+                        <div class="inner">
+                          <h3>&nbsp;</h3>
+                          <p class=''>&nbsp;</p>
                         </div>
-                        <a href="assets.php?status=Deployable">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
+                        <div class="icon">
+                          <i class="fa fa-key"></i>
+                        </div>
+                        <a href="change_password.php" class="small-box-footer">
+                          Change Password <i class="fa fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-success">
-                        <div class="panel-heading bg-green">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tint fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="" style='font-size:40px'></div>
-                                    <div>Consumables</div>
-                                </div>
-                            </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="small-box bg-brand">
+                        <div class="inner">
+                          <h3>&nbsp;</h3>
+                          <p class=''>&nbsp;</p>
                         </div>
-                        <a href="consumables.php">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
+                        <div class="icon">
+                          <i class="fa fa-question-circle"></i>
+                        </div>
+                        <a href="change_secret_password.php" class="small-box-footer">
+                          Change Secret Question <i class="fa fa-arrow-circle-right"></i>
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-success">
-                        <div class="panel-heading bg-green">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-globe fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="" style='font-size:40px'></div>
-                                    <div>Locations</div>
-                                </div>
+                <?php
+
+                    if(!empty($returned_count) || !empty($draft_count)):
+                ?>
+                    <div class='col-md-12'>
+                        <h3>
+                            Your Reimbursements
+                        </h3>
+                    </div>
+                    <div class='col-md-10 col-md-offset-1'>
+                        <?php
+                            if(!empty($returned_count)):
+                        ?>
+                        <div class='col-md-6'>
+                            <div class="info-box">
+                                <span class="info-box-icon bg-brand"><i class="ion ion-document-text" style='color:white'></i></span>
+                                <div class="info-box-content">
+                                  <span class="info-box-text">Returned Reimbursements</span>
+                                  <span class="info-box-number"><?php echo $returned_count;?></span>
+                                </div><!-- /.info-box-content -->
                             </div>
                         </div>
-                        <a href="locations.php">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
+                        <?php
+                            endif;
+                        ?>
+                        <?php
+                            if(!empty($draft_count)):
+                        ?>
+                        <div class='col-md-6'>
+                            <div class="info-box">
+                                <span class="info-box-icon bg-brand"><i class="ion ion-document-text"  style='color:white'></i></span>
+                                <div class="info-box-content">
+                                  <span class="info-box-text">Draft Reimbursements</span>
+                                  <span class="info-box-number"><?php echo $draft_count;?></span>
+                                </div><!-- /.info-box-content -->
                             </div>
-                        </a>
+                        </div>
+                        <?php
+                            endif;
+                        ?>
                     </div>
-                </div>
+                <?php
+                    endif;
+                ?>
+
+                <?php
+
+                    if(!empty($approval_count) || !empty($audit_count)):
+                ?>
+                    <div class='col-md-12'>
+                        <h3>
+                            For Approval
+                        </h3>
+                    </div>
+                    <div class='col-md-10 col-md-offset-1'>
+                        <?php
+                            if(!empty($approval_count)):
+                        ?>
+                        <div class='col-md-6'>
+                            <div class="info-box">
+                                <span class="info-box-icon bg-brand"><i class="ion ion-document-text" style='color:white'></i></span>
+                                <div class="info-box-content">
+                                  <span class="info-box-text">Reimbursements For Approval</span>
+                                  <span class="info-box-number"><?php echo $approval_count;?></span>
+                                </div><!-- /.info-box-content -->
+                            </div>
+                        </div>
+                        <?php
+                            endif;
+                        ?>
+                        <?php
+                            if(!empty($audit_count)):
+                        ?>
+                        <div class='col-md-6'>
+                            <div class="info-box">
+                                <span class="info-box-icon bg-brand"><i class="ion ion-document-text"  style='color:white'></i></span>
+                                <div class="info-box-content">
+                                  <span class="info-box-text">Reimbursemnts For Audit</span>
+                                  <span class="info-box-number"><?php echo $audit_count;?></span>
+                                </div><!-- /.info-box-content -->
+                            </div>
+                        </div>
+                        <?php
+                            endif;
+                        ?>
+                    </div>
+                <?php
+                    endif;
+                ?>
             </div>
            
             
