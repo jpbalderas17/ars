@@ -127,30 +127,30 @@
                         <?php
                             if(!empty($approval_count)):
                         ?>
-                        <div class='col-md-6'>
-                            <div class="info-box">
-                                <span class="info-box-icon bg-brand"><i class="ion ion-document-text" style='color:white'></i></span>
-                                <div class="info-box-content">
-                                  <span class="info-box-text">Reimbursements For Approval</span>
-                                  <span class="info-box-number"><?php echo $approval_count;?></span>
-                                </div><!-- /.info-box-content -->
+                            <div class='col-md-6'>
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-brand"><i class="ion ion-document-text" style='color:white'></i></span>
+                                    <div class="info-box-content">
+                                      <span class="info-box-text">Reimbursements For Approval</span>
+                                      <span class="info-box-number"><?php echo $approval_count;?></span>
+                                    </div><!-- /.info-box-content -->
+                                </div>
                             </div>
-                        </div>
                         <?php
                             endif;
                         ?>
                         <?php
                             if(!empty($audit_count)):
                         ?>
-                        <div class='col-md-6'>
-                            <div class="info-box">
-                                <span class="info-box-icon bg-brand"><i class="ion ion-document-text"  style='color:white'></i></span>
-                                <div class="info-box-content">
-                                  <span class="info-box-text">Reimbursemnts For Audit</span>
-                                  <span class="info-box-number"><?php echo $audit_count;?></span>
-                                </div><!-- /.info-box-content -->
+                            <div class='col-md-6'>
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-brand"><i class="ion ion-document-text"  style='color:white'></i></span>
+                                    <div class="info-box-content">
+                                      <span class="info-box-text">Reimbursemnts For Audit</span>
+                                      <span class="info-box-number"><?php echo $audit_count;?></span>
+                                    </div><!-- /.info-box-content -->
+                                </div>
                             </div>
-                        </div>
                         <?php
                             endif;
                         ?>

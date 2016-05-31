@@ -106,6 +106,7 @@
                               <option value=''>Filter by Status</option>
                               <option value='For Audit'>For Audit</option>
                               <option value='For Approval'>For Approval</option>
+                              <option value='Returned'>Returned</option>
                               <option value='Rejected'>Rejected</option>
                               <option value='Approved'>Approved</option>
                             </select>
@@ -147,7 +148,6 @@
                                         <th class='text-center'>Expense Classification</th>
                                         <th class='text-center'>Tax Type</th>
                                         <th class='text-center'>Status</th>
-                                        <th class='text-center' >Action</th>
                                     </tr>
                                 </tr>
                             </thead>

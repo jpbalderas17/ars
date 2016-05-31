@@ -221,6 +221,10 @@ if(!empty($_GET['status'])){
       $filter_sql.=" AND status='Rejected' ";
       break;
 
+    case 'Returned':
+      $filter_sql.=" AND status='Returned' ";
+      break;
+
     case 'Approved':
       $filter_sql.=" AND status='Approved' ";
       break;

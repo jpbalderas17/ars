@@ -259,7 +259,37 @@ $filter_sql.=$date_filter;
 //         $whereAll=" is_deleted=0 AND check_out_date <> '0000-00-00'";
 //     }
 // }
-$whereAll=" status<> 'Draft' AND is_deleted=0";
+
+$whereAll=" is_deleted=0";
+
+if(!empty($_GET['status'])){
+
+  switch ($_GET['status']) {
+    case 'For Audit':
+      $filter_sql.=" AND status='For Audit' ";
+      break;
+    case 'For Approval':
+      $filter_sql.=" AND status='For Approval' ";
+      break;
+
+    case 'Rejected':
+      $filter_sql.=" AND status='Rejected' ";
+      break;
+
+    case 'Approved':
+      $filter_sql.=" AND status='Approved' ";
+      break;
+    
+    default:
+      $filter_sql.=" AND (status <> 'Cancelled' AND status <> 'Draft') ";
+      break;
+  }
+  
+}
+else{
+      $filter_sql.=" AND (status <> 'Cancelled' AND status <> 'Draft') ";
+}
+
 $whereAll.=$filter_sql;
 function jp_bind($bindings)
 {

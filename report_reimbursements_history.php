@@ -98,6 +98,19 @@
                             </select>
                           </div>
                       </div>
+                      <div class='form-group'>
+                          <label class='col-md-3 text-right' >Status</label>
+                          <div class='col-md-3'>
+                            <select class="form-control" name='status'>
+                              <option value=''>Filter by Status</option>
+                              <option value='For Audit'>For Audit</option>
+                              <option value='For Approval'>For Approval</option>
+                              <option value='Returned'>Returned</option>
+                              <option value='Rejected'>Rejected</option>
+                              <option value='Approved'>Approved</option>
+                            </select>
+                          </div>
+                      </div>
 
                       <div class='form-group'>
                           <div class='col-md-4 col-md-offset-4 text-right'>
@@ -174,6 +187,7 @@
                     d.user_id=$("select[name='user_id']").val();
                     d.expense_classification_id=$("select[name='expense_classification_id']").val();
                     d.tax_type_id=$("select[name='tax_type_id']").val();
+                    d.status=$("select[name='status']").val();
                   }
                 },"language": {
                     "zeroRecords": "Reimbursement not found"
