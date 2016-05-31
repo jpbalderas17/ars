@@ -27,7 +27,7 @@
 
 			$email_settings=getEmailSettings();
             $header="You Request has been Returned";
-            $message="Hi {$requestor['first_name']},<br/> Your request has been returned by {$doer['last_name']} {$doer['first_name']}. For more details please login to the Spark Global Tech Systems Inc Automated Reimbursement System.";
+            $message="Hi {$requestor['first_name']},<br/> Your request has been returned by {$doer['last_name']} {$doer['first_name']}. Reason given is '{$inputs['reason']}'. For more details please login to the Spark Global Tech Systems Inc Automated Reimbursement System.";
             $message=email_template($header,$message);
             emailer($email_settings['username'],decryptIt($email_settings['password']),"info@hris.com",implode(",",array('johnpaul.balderas@sparkglobaltech.com')),"Returned Reimbursement Request",$message,$email_settings['host'],$email_settings['port']);
 
