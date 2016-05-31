@@ -269,6 +269,8 @@
                 </div>
                 <div class='col-sm-12'>
                       <div class='page-header'></div>
+                </div>
+                <div class='col-sm-12  col-md-10 col-md-offset-1'>
                       <h4 class='col-sm-12 col-md-12 text-brand text-center'>Movement History</h4>
                       <form method='get' class='form-horizontal'>
                       <div class='form-group'>
@@ -295,7 +297,7 @@
                 <div class='clearfix'></div>
                 <div class='col-md-12'>
                 </div>
-                <div class='col-md-12'>
+                <div class='col-md-12  col-md-10 col-md-offset-1'>
                     <?php
                         Alert();
                     ?>

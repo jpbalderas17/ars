@@ -45,14 +45,14 @@
                                 <div class='form-group'>
                                     <div class='col-sm-12 col-md-9 col-md-offset-3 '>
                                         <button type='submit' class='btn btn-flat btn-brand'> <span class='fa fa-check'></span> Save</button>
-                                        <a href='view_user.php?id=<?php echo $_SESSION[WEBAPP]['user']['id']?>' class='btn btn-flat btn-default' onclick="return confirm('<?php echo !empty($asset) && !empty($asset['id'])?'Are you sure you want to cancel the modification of the secret question?':'Are you sure you want to cancel the modification of the secret question?';?>')">Cancel</a>
+                                        <a href='index.php' class='btn btn-flat btn-default' onclick="return confirm('<?php echo !empty($asset) && !empty($asset['id'])?'Are you sure you want to cancel the modification of the secret question?':'Are you sure you want to cancel the modification of the secret question?';?>')">Cancel</a>
                                     </div>
                                     
                                 </div>
                                 
                             </form>
                        </div>
-                   </div>
+                   </div>   
                 </div>
             </div>
     </section>

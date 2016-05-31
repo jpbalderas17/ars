@@ -21,9 +21,14 @@
             "returned_reimbursements.php",
             "rejected_reimbursements.php"
             )))?"active":"";?>'>
+                <?php
+                  $returned_count=$con->myQuery("SELECT COUNT(id) FROM `vw_reimbursements` WHERE  status='Returned' AND is_deleted=0 AND user_id=?",array($_SESSION[WEBAPP]['user']['id']))->fetchColumn();
+                  $draft_count=$con->myQuery("SELECT COUNT(id) FROM `vw_reimbursements` WHERE  status='Draft' AND is_deleted=0 AND user_id=?",array($_SESSION[WEBAPP]['user']['id']))->fetchColumn();
+                  $my_reimbursement_count=$returned_count+$draft_count;
+                ?>
               <a href="#">
                 <i class="fa fa-file-text"></i>
-                <span>My Reimbursement</span>
+                <span>My Reimbursement <?php echo !empty($my_reimbursement_count)?"<span class='label bg-brand'>{$my_reimbursement_count}</span>":'';?></span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class='treeview-menu'>
@@ -34,10 +39,10 @@
                     <a href="reimbursements_approved.php"><i class="fa fa-circle-o"></i><span>Approved Reimbursements</span></a>
                 </li>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_drafts.php"?"active":"";?>">
-                    <a href="reimbursements_drafts.php"><i class="fa fa-circle-o"></i><span>Draft Reimbursements</span></a>
+                    <a href="reimbursements_drafts.php"><i class="fa fa-circle-o"></i><span>Draft Reimbursements <?php echo !empty($draft_count)?"<span class='label bg-brand'>{$draft_count}</span>":'';?></span></a>
                 </li>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="returned_reimbursements.php"?"active":"";?>">
-                    <a href="returned_reimbursements.php"><i class="fa fa-circle-o"></i><span>Returned Reimbursements</span></a>
+                    <a href="returned_reimbursements.php"><i class="fa fa-circle-o"></i><span>Returned Reimbursements <?php echo !empty($returned_count)?"<span class='label bg-brand'>{$returned_count}</span>":'';?></span></a>
                 </li>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="rejected_reimbursements.php"?"active":"";?>">
                     <a href="rejected_reimbursements.php"><i class="fa fa-circle-o"></i><span>Rejected Reimbursements</span></a>
@@ -49,6 +54,9 @@
             </li>
             <?php
               if(AllowUser(array(1,2))):
+                $audit_count=$con->myQuery("SELECT COUNT(id) FROM `vw_reimbursements` WHERE  status='For Audit' AND is_deleted=0 ")->fetchColumn();
+                $approval_count=$con->myQuery("SELECT COUNT(id) FROM `vw_reimbursements` WHERE  status='For Approval' AND is_deleted=0 ")->fetchColumn();
+                $reimbursement_count=$audit_count+$approval_count;
             ?>
              <li class='treeview <?php echo (in_array(substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1), array(
             "reimbursements_approval.php",
@@ -59,7 +67,7 @@
             )))?"active":"";?>'>
               <a href="#">
                 <i class="fa fa-file-text"></i>
-                <span>Reimbursement</span>
+                <span>Reimbursement <?php echo !empty($reimbursement_count)?"<span class='label bg-brand'>{$reimbursement_count}</span>":'';?></span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class='treeview-menu'>
@@ -67,13 +75,13 @@
                   if(AllowUser(array(1))):
                 ?>
                   <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_approval.php"?"active":"";?>">
-                      <a href="reimbursements_approval.php"><i class="fa fa-circle-o"></i><span>Approval</span></a>
+                      <a href="reimbursements_approval.php"><i class="fa fa-circle-o"></i><span>Approval <?php echo !empty($approval_count)?"<span class='label bg-brand'>{$approval_count}</span>":'';?></span></a>
                   </li>
                 <?php
                   endif;
                 ?>
                 <li class="<?php echo (substr($_SERVER['PHP_SELF'],strrpos($_SERVER['PHP_SELF'], "/")+1))=="reimbursements_audit.php"?"active":"";?>">
-                    <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Audit</span></a>
+                    <a href="reimbursements_audit.php"><i class="fa fa-circle-o"></i><span>Audit <?php echo !empty($audit_count)?"<span class='label bg-brand'>{$audit_count}</span>":'';?></span></a>
                 </li>
               </ul>
             </li>
