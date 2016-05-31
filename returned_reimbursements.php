@@ -66,7 +66,7 @@
                           <div class='col-md-3'>
                             <select class='form-control' name='expense_classification_id' data-placeholder='Select Expense Classification'>
                             <?php
-                                echo makeOptions($expense_classifications);
+                                //echo makeOptions($expense_classifications);
                             ?>
                             </select>
                           </div>

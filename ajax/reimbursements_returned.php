@@ -4,10 +4,9 @@ if(!isLoggedIn()){
         toLogin();
         die();
     }
-if(!AllowUser(array(1,2))){
+if(!AllowUser(array(1,2,3))){
     redirect("index.php");
 }
-
 
 // var_dump($_GET);
  
@@ -109,7 +108,7 @@ $columns = array(
         'formatter' => function( $d, $row ) {
 
             $action_buttons="";
-                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}'><span class='fa fa-pencil'></span></a> <a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_details.php?id={$d}'><span class='fa fa-search'></span></a> ";
+                    $action_buttons.="<a class='btn btn-flat btn-sm btn-brand' title='Edit Details' href='create_reimbursement.php?id={$d}&r=r'><span class='fa fa-pencil'></span></a> <a class='btn btn-flat btn-sm btn-brand' title='View Details' href='view_details.php?id={$d}'><span class='fa fa-search'></span></a> ";
                     $action_buttons.="<form method='post' action='cancel_reimbursements.php' onsubmit='return confirm(\"Are you sure you want to cancel this request?\")' style='display:inline'>";
                     $action_buttons.="<input type='hidden' name='id' value='{$row['id']}'><input type='hidden' name='return_page' value='returned_reimbursements.php'>";
                     $action_buttons.="<button class='btn btn-sm btn-danger btn-flat' value='leave' title='Cancel Request'><span class='fa fa-close'></span></button></form>&nbsp;";
