@@ -1,5 +1,5 @@
 <?php
-	require_once 'support/config.php';
+	require_once("support/config.php");
 	
 	if(!isLoggedIn()){
 		toLogin();
@@ -19,15 +19,27 @@
 		
 		$errors="";
 
+	#VALIDATE DATES
+
+		$val_date=$con->myQuery("SELECT
+									DATE_FORMAT(dv.cut_off_start,'%m-%d') AS trans_date_start,
+									DATE_FORMAT(dv.cut_off_end,'%m-%d') AS trans_date_end
+								FROM date_validations dv");
+
+
+
+
+
+
+
+
 		if($errors!="")
 		{
-
 			Alert("Please fill in the following fields: <br/>".$errors,"danger");
 			if(empty($inputs['id']))
 			{
 				redirect("create_reimbursement.php");
-			}
-			
+			}	
 			die;
 		}
 		else
