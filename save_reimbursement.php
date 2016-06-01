@@ -17,19 +17,43 @@
 		//Validate form inputs
 		$inputs=$_POST;
 		
+		$msg="";
+		$a=0;
 		$errors="";
 
 	#VALIDATE DATES
 
-		$val_date=$con->myQuery("SELECT
-									DATE_FORMAT(dv.cut_off_start,'%m-%d') AS trans_date_start,
-									DATE_FORMAT(dv.cut_off_end,'%m-%d') AS trans_date_end
-								FROM date_validations dv");
+		$trans_date=date("m-d",strtotime($inputs['transaction_date']));
+		if ($trans_date>="12-21" && $trans_date<="12-31") 
+		{
+			$trans_date = date('2015-'.$trans_date);
+		}else
+		{
+			$trans_date = date('2016-'.$trans_date);
+		}
 
+		$val_trans_date=$con->myQuery("SELECT
+									id
+								FROM date_validations dv
+								WHERE 
+								? BETWEEN dv.cut_off_start AND  dv.cut_off_end",
+								array($trans_date))->fetch(PDO::FETCH_ASSOC);
 
-
-
-
+		$today=date('Y-m-d');
+		$val_filling_date=$con->myQuery("SELECT 
+											id
+										FROM date_validations
+										WHERE id=? AND
+										? BETWEEN claim_start AND claim_end
+										",array($val_trans_date['id'],$today))->fetch(PDO::FETCH_ASSOC);
+		
+		//var_dump($val_filling_date['id']);
+		if (empty($val_filling_date)) 
+		{
+			$inputs['save']="draft";
+			$a=1;
+			$msg="Trasaction was saved as draft. Filling of reimbursement for 6 to 20 and 21 to 5 must be filed respectively on 21 to 31st and 6 to 15th of the month.";
+		}
 
 
 
@@ -48,12 +72,11 @@
 			if(empty($inputs['id']))
 			{
 				//Insert
-				$inputs=$_POST;
 				$files=reArrayFiles($_FILES['file']);
 				
 				unset($inputs['id']);
 				$userid=$_SESSION[WEBAPP]['user']['id'];
-				
+
 				$i=0;
 				$post_status=$inputs['save'];
 				$noAttachments=$inputs['countFiles'];
@@ -69,7 +92,6 @@
 						die();						
 					}
 				}
-
 
 				$params=array(
 					'payee'=>$inputs['payee'],
@@ -101,27 +123,15 @@
 						VALUES
 						(:payee, :or_number, :invoice_number, :expense_type, :description, :userid, :transaction_date, '0000-00-00', 'Draft', :amount)", $params);
 					break;
-				}
-				//var_dump($inputs);
-				//echo "<br>".$filed_date."<br>".$userid."<br>".$status;
-				//die();
-				
+				}				
 				$reimbursement_id=$con->lastInsertId();
-	
-				//die();
 
 				foreach ($files as $key => $attachment)
 				{
 					if(0 == filesize($attachment['tmp_name']))
 					{
-					
 						var_dump($_FILES['file']['tmp_name']);
 						//die();
-						/*if ($post_status=='save') {
-							Alert("Attachment is required","danger");
-							redirect("create_reimbursement.php?id=".$inputs['id']);
-							die();
-						}*/
 					}
 					else
 					{	
@@ -163,7 +173,12 @@
 
 					case 'draft':
 						record_movement($reimbursement_id,"Created Draft","");
-						Alert("Save successful","success");
+						if ($a=1) {
+							Alert($msg,"danger");
+						}else
+						{
+							Alert("Save successful","success");
+						}
 						redirect("create_reimbursement.php?id=".$reimbursement_id);
 					break;
 				}
@@ -176,7 +191,6 @@
 			
 #FROM DRAFT REIMBURSEMENT FORM
 			{
-				$inputs=$_POST;
 				$files=reArrayFiles($_FILES['file']);
 						
 				//unset($inputs['id']);
@@ -199,10 +213,6 @@
 						die();						
 					}
 				}
-				//var_dump($check_file);
-				//echo "<br>";
-				//var_dump($files[0]);
-				//die();	
 
 				switch($post_status)
 				{
@@ -300,7 +310,12 @@
 
 					case 'draft':
 						record_movement($reimbursement_id,"Modified Draft","");
-						Alert("Save successful","success");
+						if ($a=1) {
+							Alert($msg,"danger");
+						}else
+						{
+							Alert("Save successful","success");
+						}
 						redirect("create_reimbursement.php?id=".$reimbursement_id);	
 					break;
 				}
