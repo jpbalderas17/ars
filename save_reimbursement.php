@@ -25,7 +25,8 @@
 									DATE_FORMAT(dv.cut_off_start,'%m-%d') AS trans_date_start,
 									DATE_FORMAT(dv.cut_off_end,'%m-%d') AS trans_date_end
 								FROM date_validations dv");
-
+		
+ 
 
 
 

@@ -23,6 +23,60 @@
             <?php
                 Alert();
             ?>
+            <?php
+                #TRANSACTION AND FILING
+                /*
+                $date='2014-01-01';
+                $input_date=new DateTime($date);
+                $last_year=new DateTime($date);
+                $next_year=new DateTime($date);
+                $last_year->sub(new DateInterval('P1Y'));
+                $next_year->add(new DateInterval('P1Y'));
+
+                $date_validations=$con->myQuery("SELECT * FROM date_validations")->fetchAll(PDO::FETCH_ASSOC);
+
+                // echo "<pre>";
+                // print_r($date_validations);
+                // echo "</pre>";
+                
+                echo $date;
+
+                foreach ($date_validations as $row) {
+                    $cut_off_start=new DateTime($row['cut_off_start']);
+                    $cut_off_end=new DateTime($row['cut_off_end']);
+
+                    if($row['id']==25){
+                        $cut_off_end->setDate($next_year->format("Y"),$cut_off_end->format("m"),$cut_off_end->format("d"));                        
+                    }
+                    else{
+                        $cut_off_end->setDate($input_date->format("Y"),$cut_off_end->format("m"),$cut_off_end->format("d"));
+                    }
+                    
+                    if($row['id']==1){
+
+                        $cut_off_start->setDate($last_year->format("Y"),$cut_off_start->format("m"),$cut_off_start->format("d"));
+                    }
+                    else{
+                        $cut_off_start->setDate($input_date->format("Y"),$cut_off_start->format("m"),$cut_off_start->format("d"));
+                    }
+
+                    if($input_date >= $cut_off_start && $input_date <= $cut_off_end){
+                    // // print_r($date_validations);
+                        echo "<h1>In Here</h1>";
+                        echo "<pre>";
+                        print_r($cut_off_start);
+                        print_r($cut_off_end);
+                        echo "</pre>";
+                    }
+                    else{
+                        // echo "<pre>";
+                        // print_r($cut_off_start);
+                        // print_r($cut_off_end);
+                        // echo "</pre>";   
+                    }
+                }
+                //*/
+            ?>
         </div>
         <!-- Main content -->
         <section class="content">

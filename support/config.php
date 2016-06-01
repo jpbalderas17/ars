@@ -336,6 +336,48 @@ function record_movement($reimbursement_id,$action,$notes=""){
 	}
 	
 }
+function GetClaimDate($approval_date)
+{
+    #Approval
+	//*
+	$date=$approval_date;
+	$input_date=new DateTime($date);
+	$last_year=new DateTime($date);
+	$next_year=new DateTime($date);
+	$last_year->sub(new DateInterval('P1Y'));
+	$next_year->add(new DateInterval('P1Y'));
+
+	// echo "<pre>";
+	// print_r($date_validations);
+	// echo "</pre>";
+	$current_date=new DateTime();
+	$day=$input_date->format("d");
+	$month=$input_date->format("m");
+	echo $input_date->format('Y-m-d')."<br/>";
+
+
+
+	if(($day >= 1 && $day <= 4) || ($day >= 20 && $day <= 31)){
+	    if(($day >= 20 && $day <= 31)){
+	        $input_date->add(new DateInterval("P1M"));
+	        // echo ($month+1)."-05";
+	        $input_date->setDate($input_date->format("Y"),$input_date->format("m"),"05");
+	        // echo $input_date->format("Y-m-d");
+	    }
+	    else{
+	        $input_date->setDate($input_date->format("Y"),$input_date->format("m"),"05");
+	    }
+	}
+	elseif(($day >= 5 && $day <= 19)){
+	    $input_date->setDate($input_date->format("Y"),$input_date->format("m"),"20");
+	}
+
+	return $input_date->format("m/d/Y");
+
+	//*/
+}
+
+
 /* END SPECIFIC TO WEBAPP */
 
 	$con=new myPDO('automated_reimbursement','root','');	

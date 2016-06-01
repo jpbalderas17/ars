@@ -23,11 +23,11 @@
 				redirect("reimbursements_audit.php");
 				die;
 			}
-			$con->myQuery("UPDATE reimbursements SET status='For Approval',expense_type_id=?,tax_type_id=? WHERE id=?",array($inputs['id'],$inputs['expense_type_id'],$inpts['tax_type_id']));
+			$con->myQuery("UPDATE reimbursements SET status='For Approval',expense_classification_id=?,tax_type_id=? WHERE id=?",array($inputs['expense_type_id'],$inputs['tax_type_id'],$inputs['id']));
 			// die;
 			record_movement($inputs['id'],"Audited");
 			#email
-
+			$user_id=$con->myQuery("SELECT user_id FROM reimbursements WHERE id=?",array($inputs['id']))->fetchColumn();
 			$requestor=get_user_details($user_id);
 			$doer=get_user_details($_SESSION[WEBAPP]['user']['id']);
 
