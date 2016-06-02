@@ -23,16 +23,7 @@
 
 	#VALIDATE DATES
 
-<<<<<<< HEAD
-		$val_date=$con->myQuery("SELECT
-									DATE_FORMAT(dv.cut_off_start,'%m-%d') AS trans_date_start,
-									DATE_FORMAT(dv.cut_off_end,'%m-%d') AS trans_date_end
-								FROM date_validations dv");
-		
- 
 
-
-=======
 		$trans_date=date("m-d",strtotime($inputs['transaction_date']));
 		if ($trans_date>="12-21" && $trans_date<="12-31") 
 		{
@@ -41,7 +32,7 @@
 		{
 			$trans_date = date('2016-'.$trans_date);
 		}
->>>>>>> origin/master
+
 
 		$val_trans_date=$con->myQuery("SELECT
 									id
@@ -315,8 +306,25 @@
 				{
 					case 'save':
 						record_movement($reimbursement_id,"Submitted For Audit","");
+
+
+						$email_settings=getEmailSettings();
+
+						$receivers=$con->myQuery("SELECT first_name,middle_name,last_name,email FROM users WHERE user_type_id IN (1,2) AND is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
+
+						$header="A New Request is For Audit";
+
+						foreach ($receivers as $receiver) {
+				            $message="Hi {$receiver['first_name']},<br/> A new request is for approval. For more details please login to the Spark Global Tech Systems Inc Automated Reimbursement System.";
+				            $message=email_template($header,$message);
+
+				            emailer($email_settings['username'],decryptIt($email_settings['password']),"info@hris.com",implode(",",array('johnpaul.balderas@sparkglobaltech.com')),"New Request For Audit",$message,$email_settings['host'],$email_settings['port']);
+						}
+
+
 						Alert("Save successful","success");
 						redirect("reimbursements_all.php");
+						die;
 					break;
 
 					case 'draft':
@@ -328,6 +336,7 @@
 							Alert("Save successful","success");
 						}
 						redirect("create_reimbursement.php?id=".$reimbursement_id);	
+						die;
 					break;
 				}
 			//Alert("Save successful","success");

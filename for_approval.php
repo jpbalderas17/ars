@@ -32,6 +32,18 @@
 			$doer=get_user_details($_SESSION[WEBAPP]['user']['id']);
 
 			$email_settings=getEmailSettings();
+
+			$receivers=$con->myQuery("SELECT first_name,middle_name,last_name,email FROM users WHERE user_type_id=1 AND is_deleted=0")->fetchAll(PDO::FETCH_ASSOC);
+
+			$header="A New Request is For Approval";
+
+			foreach ($receivers as $receiver) {
+	            $message="Hi {$receiver['first_name']},<br/> A new request is for approval. For more details please login to the Spark Global Tech Systems Inc Automated Reimbursement System.";
+	            $message=email_template($header,$message);
+
+	            emailer($email_settings['username'],decryptIt($email_settings['password']),"info@hris.com",implode(",",array('johnpaul.balderas@sparkglobaltech.com')),"New Request For Approval",$message,$email_settings['host'],$email_settings['port']);
+			}
+
             $header="You Request has been Audited";
             $message="Hi {$requestor['first_name']},<br/> Your request has been audited by {$doer['last_name']} {$doer['first_name']} and is currently for approval. For more details please login to the Spark Global Tech Systems Inc Automated Reimbursement System.";
 

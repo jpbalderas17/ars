@@ -63,6 +63,10 @@ $columns = array(
             return htmlspecialchars($d);
         
     }),
+    array( 'db' => 'action_date','dt' => ++$index,'formatter'=> function ($d,$row){
+            return htmlspecialchars(GetCLaimDate($d));
+        
+    }),
     array(
         'db'        => 'id',
         'dt'        => ++$index,

@@ -353,7 +353,7 @@ function GetClaimDate($approval_date)
 	$current_date=new DateTime();
 	$day=$input_date->format("d");
 	$month=$input_date->format("m");
-	echo $input_date->format('Y-m-d')."<br/>";
+	// echo $input_date->format('Y-m-d')."<br/>";
 
 
 
