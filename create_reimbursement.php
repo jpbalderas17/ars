@@ -139,21 +139,21 @@
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Amount*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='amount' placeholder='Enter Amount' value='<?php echo !empty($getReimbursement)?$getReimbursement['amount']:"" ?>' required>
+                                        <input type='text' class='form-control unsigned_integer' name='amount' placeholder='Enter Amount' value='<?php echo !empty($getReimbursement)?$getReimbursement['amount']:"" ?>' required>
                                     </div>
                                 </div>
 
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> OR Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='or_number' placeholder='Enter OR Number' value='<?php echo !empty($getReimbursement)?$getReimbursement['or_number']:"" ?>' required>
+                                        <input type='text' class='form-control numeric' name='or_number' placeholder='Enter OR Number' value='<?php echo !empty($getReimbursement)?$getReimbursement['or_number']:"" ?>' required>
                                     </div>
                                 </div>
 
                                 <div class='form-group' id='invoicediv' style="display: none;">
                                     <label class='col-sm-12 col-md-3 control-label'> Invoice Number*</label>
                                     <div class='col-sm-12 col-md-9'>
-                                        <input type='text' class='form-control' name='invoice_number' placeholder='Enter Invoice Number' value='<?php echo !empty($getReimbursement)?$getReimbursement['invoice_number']:"" ?>' >
+                                        <input type='text' class='form-control numeric' name='invoice_number' placeholder='Enter Invoice Number' value='<?php echo !empty($getReimbursement)?$getReimbursement['invoice_number']:"" ?>' >
                                     </div>
                                 </div>
 
