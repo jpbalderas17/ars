@@ -10,6 +10,7 @@
     }
 
 	$organization="";
+    $a="";
     
     if(!empty($_GET['id']))
     {
@@ -77,6 +78,7 @@
 
               <div class='col-sm-12 col-md-8 col-md-offset-2'>
                         <form name='frm_r' class='form-horizontal' method='POST' action='save_reimbursement.php' enctype="multipart/form-data">
+                                <input type='hidden' name='r' id='r' value='<?php echo !empty($_GET['r'])?$_GET["r"]:""?>'>
                                 <input type='hidden' name='id' id='id' value='<?php echo !empty($getReimbursement)?$getReimbursement["id"]:""?>'>
                                 <input type='hidden' name='countFiles' id='countFiles' value='<?php echo !empty($getAttachments)?count($getAttachments):""; count($getAttachments); ?>'>
 
@@ -110,6 +112,14 @@
                                     </div>
                                 </div>
 
+                                <?php
+                                    if (!empty($_GET['r'])) 
+                                    {
+                                        $a='readonly';
+                                    }
+                                ?>
+
+
                                 <div class='form-group'>
                                     <label class='col-sm-12 col-md-3 control-label'> Transaction Date*</label>
                                     <div class='col-sm-12 col-md-9'>
@@ -122,7 +132,7 @@
                                             }
                                          }
                                         ?>
-                                        <input type='date' class='form-control' name='transaction_date'  value='<?php echo !empty($getReimbursement)?$getReimbursement['transaction_date']:"" ?>' required>
+                                        <input type='date' class='form-control' name='transaction_date'  value='<?php echo !empty($getReimbursement)?$getReimbursement['transaction_date']:"" ?>' required <?php echo $a;?>>
                                     </div>
                                 </div>
 

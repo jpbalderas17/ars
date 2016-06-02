@@ -50,14 +50,12 @@
 										",array($val_trans_date['id'],$today))->fetch(PDO::FETCH_ASSOC);
 		
 		//var_dump($val_filling_date['id']);
-		if (empty($val_filling_date)) 
+		if (empty($val_filling_date) && empty($inputs['r'])) 
 		{
 			$inputs['save']="draft";
 			$a=1;
 			$msg="Trasaction was saved as draft. Filling of reimbursement for 6 to 20 and 21 to 5 must be filed respectively on 21 to 31st and 6 to 15th of the month.";
 		}
-
-
 
 		if($errors!="")
 		{
